@@ -9,9 +9,14 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     TabHost tbh;
+    TextView tempVal;
+    Spinner spn;
+    Button btn;
+    conversores miObj = new conversores();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +30,33 @@ public class MainActivity extends AppCompatActivity {
         tbh.addTab(tbh.newTabSpec("ALM").setContent(R.id.tabLongitud).setIndicator("ALMACENAMIENTO", null));
         tbh.addTab(tbh.newTabSpec("MON").setContent(R.id.tabLongitud).setIndicator("MONEDAS", null));
 
+        btn = findViewById(R.id.btnConvertirLongitud);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                spn = findViewById(R.id.spnDeLongitud);
+                int de = spn.getSelectedItemPosition();
+
+                spn = findViewById(R.id.spnALongitud);
+                int a = spn.getSelectedItemPosition();
+
+                tempVal = findViewById(R.id.txtCantidadLongitud);
+                double cantidad = Double.parseDouble(tempVal.getText().toString());
+
+                double resp = miObj.convertir(0, de, a, cantidad);
+                Toast.makeText(getApplicationContext(), "Respuesta: " + resp, Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+}
+class conversores{
+    double[][] valores ={
+            {1, 100, 39.3701, 3.28084, 1.193, 1.09361, 0.001, 0.000621371},
+            {1,},
+            {1,}
+    };
+    public double convertir (int opcion, int de, int a, double cantidad){
+        return valores[opcion][a]/valores[opcion][de]*cantidad;
     }
 }
