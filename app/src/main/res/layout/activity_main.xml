@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
     <TextView
-        android:id="@+id/lblSensorProximidad"
-        android:text="Sensor Proximidad: "
+        android:id="@+id/lblSensorGps"
+        android:text="Sensor GPS: "
         android:textColor="@color/black"
         android:background="@color/white"
         android:layout_marginTop="60dp"

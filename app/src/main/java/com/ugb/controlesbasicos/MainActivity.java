@@ -1,12 +1,20 @@
 package com.ugb.controlesbasicos;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,61 +23,46 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    SensorManager sensorManager;
-    Sensor sensor;
-    SensorEventListener sensorEventListener;
     TextView tempVal;
+    LocationManager locationManager;
+    LocationListener locationListener;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tempVal = findViewById(R.id.lblSensorProximidad);
-        activarSensorProximidad();
-
+        tempVal = findViewById(R.id.lblSensorGps);
+        obtenerPosicion();
     }
-    @Override
-    protected void onResume() {
-        iniciar();
-        super.onResume();
-    }
-    @Override
-    protected void onPause() {
-        detener();
-        super.onPause();
-    }
+    private void obtenerPosicion(){
+        try {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 1);
+                tempVal.setText("Solicitando permisos de localización...");
+            }
+        /*Location location;
+        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        mostrarPosicion(location);*/
 
-    private void activarSensorProximidad(){
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        if(sensor==null){
-            tempVal.setText("Tu dispositivo NO cuenta con el sensor proximidad.");
-            finish();
-        }
-        sensorEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                double valor = event.values[0];
-                tempVal.setText("Proximidad: " + valor);
-
-                if(valor<=4){
-                    getWindow().getDecorView().setBackgroundColor(Color.BLACK);
-                } else if (valor<=8) {
-                    getWindow().getDecorView().setBackgroundColor(Color.RED);
-                } else {
-                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(@NonNull Location location) {
+                    mostrarPosicion(location);
                 }
-            }
+            };
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 0, locationListener);
+        }catch (Exception e){
+            tempVal.setText(e.getMessage());
+        }
+    }
+    private void mostrarPosicion(Location location){
+        tempVal.setText("Poscion -  Latitud: " + location.getLatitude() + ";  Longitud: " + location.getLongitude() + ";  Altitud: " + location.getAltitude());
 
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
 
-            }
-        };
-    }
-    private void iniciar(){
-        sensorManager.registerListener(sensorEventListener, sensor,2000 * 1000);
-    }
-    private void detener(){
-        sensorManager.unregisterListener(sensorEventListener);
-    }
 }
+
