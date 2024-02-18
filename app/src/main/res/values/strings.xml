@@ -1,14 +1,4 @@
 <resources>
-    <string name="app_name">Controles Basicos</string>
-    <string-array name="snpopciones">
-        <item>Suma</item>
-        <item>Resta</item>
-        <item>Multiplicacion</item>
-        <item>Division</item>
-        <item>%</item>
-        <item>Exponenciacion</item>
-        <item>Factorial</item>
-        <item>Raíz</item>
+    <string name="app_name">Sensor Acelerometro</string>
 
-    </string-array>
 </resources>

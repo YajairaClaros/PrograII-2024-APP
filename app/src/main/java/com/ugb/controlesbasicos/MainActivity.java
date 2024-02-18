@@ -2,6 +2,10 @@ package com.ugb.controlesbasicos;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,77 +14,53 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
+    SensorManager sensorManager;
+    Sensor sensor;
+    SensorEventListener sensorEventListener;
     TextView tempVal;
-    Button btn;
-    RadioGroup opt;
-    Spinner spn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tempVal = findViewById(R.id.lblSensorAcelerometro);
+        activarSensorAcelerometro();
 
-        btn = findViewById(R.id.btnCalcular);
-        btn.setOnClickListener(new View.OnClickListener() {
+    }
+    @Override
+    protected void onResume() {
+        iniciar();
+        super.onResume();
+    }
+    @Override
+    protected void onPause() {
+        detener();
+        super.onPause();
+    }
+
+    private void activarSensorAcelerometro(){
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if(sensor==null){
+            tempVal.setText("Tu dispositivo NO cuenta con el sensor acelerometro.");
+            finish();
+        }
+        sensorEventListener = new SensorEventListener() {
             @Override
-            public void onClick(View view) {
-                tempVal = findViewById(R.id.txtnum1);
-                double num1 = Double.parseDouble(tempVal.getText().toString());
-
-                tempVal = findViewById(R.id.txtnum2);
-                double num2 = Double.parseDouble(tempVal.getText().toString());
-
-                double respuesta = 0;
-                /*opt = findViewById(R.id.optOpciones);
-                switch (opt.getCheckedRadioButtonId()){
-                    case R.id.optSuma:
-                        respuesta = num1 + num2;
-                        break;
-                    case R.id.optResta:
-                        respuesta = num1 - num2;
-                        break;
-                    case R.id.optMultiplicacion:
-                        respuesta = num1 * num2;
-                        break;
-                    case R.id.optDivision:
-                        respuesta = num1 / num2;
-                        break;
-                }*/
-                spn = findViewById(R.id.spnOpciones);
-                switch (spn.getSelectedItemPosition()){
-                    case 0:
-                        respuesta = num1 + num2;
-                        break;
-                    case 1:
-                        respuesta = num1 - num2;
-                        break;
-                    case 2:
-                        respuesta = num1 * num2;
-                        break;
-                    case 3:
-                        respuesta = num1 / num2;
-                        break;
-                    case 4:
-                        respuesta = num2 * (num1/100);
-                        break;
-                    case 5:
-                        respuesta = Math.pow(num1,num2);
-                        break;
-                    case 6:
-                        int factorial = 1;
-                        for (int i = 1; i <= num1; i++) {
-                            factorial *= i;
-                        }
-                        respuesta = factorial;
-                        break;
-                    case 7:
-                        respuesta = Math.sqrt(num1);
-                        break;
-                }
-
-                tempVal = findViewById(R.id.lblRespuesta);
-                tempVal.setText("Respuesta: "+ respuesta);
+            public void onSensorChanged(SensorEvent event) {
+                tempVal.setText("Acelerometro: X = " + event.values[0] + "; Y = " + event.values[1] + "; Z = " +
+                        event.values[2]);
             }
-        });
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+    }
+    private void iniciar(){
+        sensorManager.registerListener(sensorEventListener, sensor,2000 * 1000);
+    }
+    private void detener(){
+        sensorManager.unregisterListener(sensorEventListener);
     }
 }
