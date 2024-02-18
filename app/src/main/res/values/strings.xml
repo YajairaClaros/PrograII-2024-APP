@@ -9,6 +9,90 @@
        <item>Yarda</item>
        <item>Km</item>
        <item>Millas</item>
-
    </string-array>
+
+    <string-array name="spnVolumen">
+        <item>Litros</item>
+        <item>Metros Cubicos</item>
+        <item>Taza americana oficial</item>
+        <item>Cuarto estadounidense</item>
+        <item>Galon estadounidense</item>
+        <item>Mililitros</item>
+        <item>Taza imperial</item>
+        <item>Onza liquida imperial</item>
+        <item>Pie cubico</item>
+        <item>Pulgada cubica</item>
+    </string-array>
+
+    <string-array name="spnMasa">
+        <item>Gramo</item>
+        <item>Miligramo</item>
+        <item>Libra</item>
+        <item>Onza</item>
+        <item>Kilogramo</item>
+        <item>Microgramo</item>
+        <item>Tonelada Larga</item>
+        <item>Tonelada Corta</item>
+    </string-array>
+
+    <string-array name="spnAlmacenamiento">
+        <item>Kilobyte</item>
+        <item>Byte</item>
+        <item>Gigabit</item>
+        <item>Megabit</item>
+        <item>Bit</item>
+        <item>Megabyte</item>
+        <item>Gigabyte</item>
+        <item>Terabyte</item>
+        <item>Petabyte</item>
+        <item>Pebibyte</item>
+    </string-array>
+
+
+    <string-array name="spnTransmision">
+        <item>Gigabit por segundo</item>
+        <item>Mebibit por segundo</item>
+        <item>megabyte por segundo</item>
+        <item>megabit por segundo</item>
+        <item>Kibibit por segundo</item>
+        <item>kilobyte por segundo</item>
+        <item>kilobit por segundo</item>
+        <item>bit por segundo</item>
+        <item>Gigabyte por segundo</item>
+        <item>gibibit por segundo</item>
+        <item>terabit por segundo</item>
+        <item>Terabyte por segundo</item>
+        <item>Tebibit por segundo</item>
+    </string-array>
+
+    <string-array name="spnMonedas">
+        <item>dolar americano</item>
+        <item>peso mexicano</item>
+        <item>lempira hondureño</item>
+        <item>quetzal</item>
+        <item>cordoba</item>
+        <item>colon costarricense</item>
+        <item>balboa</item>
+        <item>dolar beliceño</item>
+        <item>dolar canadiense</item>
+        <item>euro</item>
+        <item>yen japones</item>
+        <item>bolivar venezolano</item>
+        <item>peso colombiano</item>
+        <item>dolar australiano</item>
+    </string-array>
+
+    <string-array name="spnTiempo">
+        <item>dias</item>
+        <item>horas</item>
+        <item>minutos</item>
+        <item>segundos</item>
+        <item>milisegundos</item>
+        <item>semanas</item>
+        <item>meses</item>
+        <item>años</item>
+        <item>decadas</item>
+        <item>siglos</item>
+    </string-array>
+
 </resources>
