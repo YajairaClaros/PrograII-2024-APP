@@ -1,4 +1,14 @@
 <resources>
-    <string name="app_name">Sensor GPS</string>
+    <string name="app_name">PARCIAL_1</string>
+
+    <string-array name="spnArea">
+    <item>pie cuadrado</item>
+    <item>vara cuadrada</item>
+    <item>yarda cuadrada</item>
+    <item>metros cuadrados</item>
+    <item>tareas</item>
+    <item>manzanas</item>
+    <item>hectarea</item>
+    </string-array>
 
 </resources>
