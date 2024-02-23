@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
                 tempVal.setText("Luz: " + valor);
 
                 if(valor<=2){
-                    getWindow().getDecorView().setBackgroundColor(Color.BLACK);
+                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
                 } else if (valor<=50) {
                     getWindow().getDecorView().setBackgroundColor(Color.RED);
                 } else {
-                    getWindow().getDecorView().setBackgroundColor(Color.YELLOW);
+                    getWindow().getDecorView().setBackgroundColor(Color.GREEN);
                 }
             }
 
