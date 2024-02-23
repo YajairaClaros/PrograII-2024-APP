@@ -23,46 +23,35 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    TextView tempVal;
-    LocationManager locationManager;
-    LocationListener locationListener;
-
-
+    TextView var1;
+    Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        tempVal = findViewById(R.id.lblSensorGps);
-        obtenerPosicion();
-    }
-    private void obtenerPosicion(){
-        try {
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION}, 1);
-                tempVal.setText("Solicitando permisos de localización...");
-            }
-        /*Location location;
-        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        mostrarPosicion(location);*/
 
-            locationListener = new LocationListener() {
-                @Override
-                public void onLocationChanged(@NonNull Location location) {
-                    mostrarPosicion(location);
+        btn = findViewById(R.id.btnConvertirMetros);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                var1 = findViewById(R.id.txtCantidadMetros);
+                double mtsConsumidos = Double.parseDouble(var1.getText().toString());
+                double valorPagar;
+
+                if(mtsConsumidos >= 1 && mtsConsumidos <= 18){
+                    valorPagar = 6;
+                }else if(mtsConsumidos >= 19 && mtsConsumidos <=28){
+                    valorPagar = 6 + 0.45 *(mtsConsumidos - 18);
+                } else {
+                    valorPagar = 6 + 0.45 * 10 + 0.65 *(mtsConsumidos - 28);
                 }
-            };
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5, 0, locationListener);
-        }catch (Exception e){
-            tempVal.setText(e.getMessage());
-        }
-    }
-    private void mostrarPosicion(Location location){
-        tempVal.setText("Poscion -  Latitud: " + location.getLatitude() + ";  Longitud: " + location.getLongitude() + ";  Altitud: " + location.getAltitude());
+
+                var1 = findViewById(R.id.Resultado);
+                var1.setText("Respuesta: " + valorPagar);
+            }
+        });
 
     }
-
 }
+
 
