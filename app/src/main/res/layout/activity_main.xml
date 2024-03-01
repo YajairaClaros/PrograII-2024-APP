@@ -7,115 +7,53 @@
     tools:context=".MainActivity">
 
 
-    <TabHost
-        android:id="@+id/tbhConversor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/txtnombre"
+        android:hint="Nombre"
+        android:inputType="textPersonName"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtdireccion"
+        android:hint="Direccion"
+        android:inputType="textMultiLine"
+        android:layout_below="@id/txtnombre"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtTelefono"
+        android:hint="Telefono"
+        android:inputType="phone"
+        android:layout_below="@id/txtdireccion"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtEmail"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_below="@id/txtTelefono"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtDui"
+        android:hint="DUI"
+        android:inputType="number"
+        android:layout_below="@id/txtEmail"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnGuardarAmigo"
+        android:text="GUARDAR AMIGO"
+        android:layout_width="match_parent"
+        android:layout_below="@id/txtDui"
+        android:layout_marginTop="40dp"
+        android:layout_height="wrap_content"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <!-- Tab: Metros Consumidos -->
-
-                <RelativeLayout
-                    android:id="@+id/Mts.Consumidos"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
 
 
-                    <EditText
-                        android:id="@+id/txtCantidadMetros"
-                        android:layout_width="371dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="40dp"
-                        android:hint="Metros Consumidos" />
-
-                    <Button
-                        android:id="@+id/btnConvertirMetros"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtCantidadMetros"
-                        android:layout_marginTop="41dp"
-                        android:text="CONVERTIR" />
-
-                    <TextView
-                        android:id="@+id/Resultado"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/btnConvertirMetros"
-                        android:layout_marginTop="40dp"
-                        android:text="Resultado: " />
-
-                </RelativeLayout>
-                <!-- Tab Longitud -->
-                <RelativeLayout
-                    android:id="@+id/tabArea"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/lblDeArea"
-                        android:text="DE"
-                        android:layout_marginTop="60dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-                    <TextView
-                        android:id="@+id/lblAArea"
-                        android:text="A"
-                        android:layout_below="@id/lblDeArea"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                    <Spinner
-                        android:id="@+id/spnDEArea"
-                        android:entries="@array/spnArea"
-                        android:layout_alignBaseline="@id/lblDeArea"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/lblDeArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <Spinner
-                        android:id="@+id/spnAArea"
-                        android:entries="@array/spnArea"
-                        android:layout_alignBaseline="@id/lblAArea"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@id/lblAArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                    <EditText
-                        android:id="@+id/txtCantidadArea"
-                        android:layout_below="@+id/spnAArea"
-                        android:layout_marginTop="40dp"
-                        android:hint="Cantidad a convertir"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                    <Button
-                        android:id="@+id/btnConvertirArea"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/txtCantidadArea"
-                        android:layout_marginTop="40dp"
-                        android:text="convertir" />
-
-                </RelativeLayout>
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
 </RelativeLayout>
