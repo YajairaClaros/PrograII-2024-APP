@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,6 +37,7 @@ public class lista_amigos extends AppCompatActivity {
             }
         });
         obtenerDatosAmigos();
+        buscarAmigos();
     }
     private void abrirActividad(){
         Intent abrirActividad = new Intent(getApplicationContext(), MainActivity.class);
@@ -72,6 +76,52 @@ public class lista_amigos extends AppCompatActivity {
         }catch (Exception e){
             mostrarMsg("Error al mostrar datos" + e.getMessage());
         }
+    }
+    private void buscarAmigos(){
+        TextView tempVal;
+        tempVal = findViewById(R.id.txtBuscarAmigos);
+        tempVal.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                try {
+                    alAmigos.clear();
+                    String valor = tempVal.getText().toString().trim().toLowerCase();
+                    if (valor.length()<=0 ){
+                        alAmigos.addAll(alAmigosCopy);
+                    }else {
+                        for (amigos amigo: alAmigosCopy){
+                            String nombre = amigo.getNombre();
+                            String direccion = amigo.getDireccion();
+                            String tel = amigo.getTelefono();
+                            String email = amigo.getEmail();
+                            String dui = amigo.getDui();
+                            if (nombre.toLowerCase().trim().contains(valor) ||
+                                direccion.toLowerCase().trim().contains(valor) ||
+                                tel.trim().contains(valor) ||
+                                email.trim().toLowerCase().contains(valor) ||
+                                dui.trim().contains(valor)){
+                                alAmigos.add(amigo);
+                            }
+                        }
+                        adaptadorImagenes adImagenes = new adaptadorImagenes(getApplicationContext(), alAmigos);
+                        lts.setAdapter(adImagenes);
+                    }
+                }catch (Exception e){
+                    mostrarMsg("Error al buscar" + e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
     private void mostrarMsg(String msg){
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
