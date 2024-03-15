@@ -1,8 +1,10 @@
 package com.ugb.controlesbasicos;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -87,9 +89,35 @@ public class lista_amigos extends AppCompatActivity {
             return super.onContextItemSelected(item);
         }
     }
-        return super.onContextItemSelected(item);
+    private void eliminarAmigos(){
+        try {
+            AlertDialog.Builder confirmar = new AlertDialog.Builder(lista_amigos.this);
+            confirmar.setTitle("Estas segura de eliminar a: ");
+            confirmar.setMessage(cAmigos.getString(1)); // 1 es el nombre
+            confirmar.create().show();
+            confirmar.setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String respuesta = db.administrar_amigos("eliminar", new String[]{cAmigos.getString(0)});// 0 es el idAmigo
+                    if (respuesta.equals("ok")){
+                        mostrarMsg("Amigo eliminado con exito");
+                        obtenerDatosAmigos();
+                    }else{
+                        mostrarMsg("Error al eliminar el amigo: "+ respuesta);
+                    }
+                }
+            });
+            confirmar.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            confirmar.create().show();
+        }catch (Exception e){
+            mostrarMsg("Error al eliminar amigo: "+ e.getMessage());
+        }
     }
-
     private void abrirActividad(Bundle parametros){
         Intent abrirActividad = new Intent(getApplicationContext(), MainActivity.class);
         abrirActividad.putExtras(parametros);
