@@ -70,13 +70,21 @@ public class MainActivity extends AppCompatActivity {
                 DB db = new DB(getApplicationContext(),"", null, 1);
                 String respuesta = db.administrar_amigos(accion, datos);
                 if(respuesta.equals("ok")){
-                    Toast.makeText(getApplicationContext(), "Amigo registrado con exito", Toast.LENGTH_LONG).show();
+                    mostrarMsg("Amigo registrado con exito");
+                    listarAmigos();
                 }else {
-                    Toast.makeText(getApplicationContext(), "Error al intentar registrar el amigo: " + respuesta, Toast.LENGTH_LONG).show();
+                    mostrarMsg("Error al intentar registrar el amigo: ");
                 }
             }
         });
 
+    }
+    private void mostrarMsg(String msg){
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+    }
+    private void listarAmigos(){
+        Intent intent= new Intent(getApplicationContext(), lista_amigos.class);
+        startActivity(intent);
     }
 }
 
