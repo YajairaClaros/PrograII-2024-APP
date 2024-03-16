@@ -61,27 +61,25 @@ public class lista_amigos extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         try{
-            switch (item.getItemId()){
-                case R.id.mnxAgregar:
+            if(item.getItemId()== R.id.mnxAgregar){
                     parametros.putString("accion","nuevo");
                     abrirActividad(parametros);
-                    break;
-                case R.id.mnxModificar:
-                    String[] amigos = {
-                            cAmigos.getString(0), //idAmigo
-                            cAmigos.getString(1), //nombre
-                            cAmigos.getString(2), //direccion
-                            cAmigos.getString(3), //tel
-                            cAmigos.getString(4), //email
-                            cAmigos.getString(5), //dui
-                    };
-                    parametros.putString("accion", "modificar");
-                    parametros.putStringArray("amigos", amigos);
-                    abrirActividad(parametros);
-                    break;
-                case R.id.mnxEliminar:
-                    eliminarAmigos();
-                    break;
+            }
+            if(item.getItemId()==R.id.mnxModificar) {
+                String[] amigos = {
+                        cAmigos.getString(0), //idAmigo
+                        cAmigos.getString(1), //nombre
+                        cAmigos.getString(2), //direccion
+                        cAmigos.getString(3), //tel
+                        cAmigos.getString(4), //email
+                        cAmigos.getString(5), //dui
+                        cAmigos.getString(6), //foto
+                };
+                parametros.putString("accion", "modificar");
+                parametros.putStringArray("amigos", amigos);
+                abrirActividad(parametros);
+            } else if (item.getItemId()==R.id.mnxEliminar) {
+                eliminarAmigos();
             }
             return true;
         }catch (Exception e){
@@ -140,7 +138,8 @@ public class lista_amigos extends AppCompatActivity {
                             cAmigos.getString(2), //idDireccion
                             cAmigos.getString(3), //idTelefono
                             cAmigos.getString(4), //idEmail
-                            cAmigos.getString(5) //idDui
+                            cAmigos.getString(5),//idDui
+                            cAmigos.getString(6) // foto
                     );
                     alAmigos.add(misAmigos);
                 }while (cAmigos.moveToFirst());
