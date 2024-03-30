@@ -20,7 +20,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".lista_amigos"
+            android:name=".lista_tienda"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

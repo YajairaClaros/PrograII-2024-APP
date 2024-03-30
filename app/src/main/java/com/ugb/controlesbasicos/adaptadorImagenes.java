@@ -3,7 +3,6 @@ package com.ugb.controlesbasicos;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,40 +15,40 @@ import java.util.ArrayList;
 
 public class adaptadorImagenes extends BaseAdapter {
     Context context;
-    ArrayList<amigos> datosAmigosArrayList;
-    amigos misAmigos;
+    ArrayList<tienda> datosTiendaArrayList;
+    tienda misAmigos;
     LayoutInflater layoutInflater;
-    public adaptadorImagenes(Context context, ArrayList<amigos> datosAmigosArrayList) {
+    public adaptadorImagenes(Context context, ArrayList<tienda> datosAmigosArrayList) {
         this.context = context;
-        this.datosAmigosArrayList = datosAmigosArrayList;
+        this.datosTiendaArrayList = datosAmigosArrayList;
     }
     @Override
     public int getCount() {
-        return datosAmigosArrayList.size();
+        return datosTiendaArrayList.size();
     }
     @Override
     public Object getItem(int position) {
-        return datosAmigosArrayList.get(position);
+        return datosTiendaArrayList.get(position);
     }
     @Override
     public long getItemId(int position) {
-        return Long.parseLong(datosAmigosArrayList.get(position).getIdAmigo());
+        return Long.parseLong(datosTiendaArrayList.get(position).getIdProd());
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
       View itemView = layoutInflater.inflate(R.layout.listview_imagenes, parent, false);
       try {
-          misAmigos = datosAmigosArrayList.get(position);
+          misAmigos = datosTiendaArrayList.get(position);
 
-          TextView tempVal = itemView.findViewById(R.id.lblNombre);
-          tempVal.setText(misAmigos.getNombre());
+          TextView tempVal = itemView.findViewById(R.id.lblpresentacion);
+          tempVal.setText(misAmigos.getPresentacion());
 
-          tempVal = itemView.findViewById(R.id.lblTelefono);
-          tempVal.setText(misAmigos.getTelefono());
+          tempVal = itemView.findViewById(R.id.lbldescripcion);
+          tempVal.setText(misAmigos.getDescripcion());
 
-          tempVal = itemView.findViewById(R.id.lblEmail);
-          tempVal.setText(misAmigos.getEmail());
+          tempVal = itemView.findViewById(R.id.lblprecio);
+          tempVal.setText(misAmigos.getPrecio());
 
           ImageView imgView = itemView.findViewById(R.id.imgFoto);
           Bitmap imagenBitmap = BitmapFactory.decodeFile(misAmigos.getFoto());
