@@ -9,7 +9,6 @@ public class detectarInternet {
     public detectarInternet(Context _context) {
         this._context = _context;
     }
-
     public boolean hayConexionInternet(){
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) _context.getSystemService(Context.CONNECTIVITY_SERVICE);

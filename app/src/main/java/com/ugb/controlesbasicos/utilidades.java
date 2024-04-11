@@ -8,7 +8,7 @@ public class utilidades {
     static String user = "Isamar";
     static String passwd = "CLAROSUGB2022";
     static String credencialesCodificadas = Base64.getEncoder().encodeToString((user + ":" + passwd).getBytes());
-    public String generalIdUnico(){
+    public String generarIdUnico(){
         return java.util.UUID.randomUUID().toString();
     }
 }
