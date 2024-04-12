@@ -57,7 +57,7 @@ public class lista_amigos extends AppCompatActivity {
         try {
             di = new detectarInternet(getApplicationContext());
             if (di.hayConexionInternet() ){
-                obtenerDatosServidor();
+                new obtenerDatosServidor();
             }else{//offline
                 obtenerDatosAmigos();
             }
@@ -67,7 +67,7 @@ public class lista_amigos extends AppCompatActivity {
         buscarAmigos();
     }
 
-    private void obtenerDatosServidor(){
+    private void obtenerDatosAmigosServidor(){
         try {
             datosServidor = new obtenerDatosServidor();
             String data = datosServidor.execute().get();
@@ -75,7 +75,7 @@ public class lista_amigos extends AppCompatActivity {
             datosJSON = jsonObject.getJSONArray("rows");
             mostrarDatosAmigos();
         }catch (Exception e){
-            mostrarMsg("Error al obtener datos del server: "  + e.getMessage());
+            mostrarMsg("Error al obtener datos del server: "+e.getMessage());
         }
     }
 
@@ -143,7 +143,7 @@ public class lista_amigos extends AppCompatActivity {
             }
             return true;
         }catch (Exception e){
-            mostrarMsg("Error al seleccionar una opcion del mennu: "+ e.getMessage());
+            mostrarMsg("Error al seleccionar una opcion del menu: "+ e.getMessage());
             return super.onContextItemSelected(item);
         }
     }

@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.btnGuardarAmigo);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 try {
                     tempVal = findViewById(R.id.txtnombre);
                     String nombre = tempVal.getText().toString();
@@ -89,8 +89,9 @@ public class MainActivity extends AppCompatActivity {
                     tempVal = findViewById(R.id.txtDui);
                     String dui = tempVal.getText().toString();
 
-                    String respuesta = "";
-                    if( di.hayConexionInternet() ) {
+
+                    String respuesta;
+                    if (di.hayConexionInternet()) {
                         //obtener datos a enviar al servidor
                         JSONObject datosAmigos = new JSONObject();
                         if (accion.equals("modificar")) {
@@ -105,8 +106,10 @@ public class MainActivity extends AppCompatActivity {
                         datosAmigos.put("dui", dui);
                         datosAmigos.put("urlCompletaFoto", urlCompletaFoto);
                         //enviamos los datos
+                        respuesta = "";
                         enviarDatosServidor objGuardarDatosServidor = new enviarDatosServidor(getApplicationContext());
                         respuesta = objGuardarDatosServidor.execute(datosAmigos.toString()).get();
+mostrarMsg(respuesta);
                         //comprobacion de la respuesta
                         JSONObject respuestaJSONObject = new JSONObject(respuesta);
                         if (respuestaJSONObject.getBoolean("ok")) {
