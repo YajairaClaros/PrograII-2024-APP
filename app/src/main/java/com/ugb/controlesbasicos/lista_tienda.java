@@ -25,28 +25,27 @@ import java.util.ArrayList;
 
 public class lista_tienda extends AppCompatActivity {
     Bundle parametros = new Bundle();
-    FloatingActionButton btnAgregarProductos;
+    FloatingActionButton btnAgregarproductos;
     ListView lts;
     Cursor cTienda;
-    tienda misProductos;
+    tienda misproductos;
     DB db;
-    final ArrayList<tienda> alProducto = new ArrayList<tienda>();
-    final ArrayList<tienda> alProductoCopy = new ArrayList<tienda>();
+    final ArrayList<tienda> alproducto=new ArrayList<tienda>();
+    final ArrayList<tienda> alproductosCopy=new ArrayList<tienda>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_amigos);
-
-        btnAgregarProductos = findViewById(R.id.fabAgregarProductos);
-        btnAgregarProductos.setOnClickListener(new View.OnClickListener() {
+        btnAgregarproductos = findViewById(R.id.fabAgregarproductos);
+        btnAgregarproductos.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                parametros.putString("accion", "nuevo");
+            public void onClick(View view) {
+                parametros.putString("accion","nuevo");
                 abrirActividad(parametros);
             }
         });
         obtenerDatosAmigos();
-        buscarTienda();
+        buscarAmigos();
     }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -56,30 +55,32 @@ public class lista_tienda extends AppCompatActivity {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         cTienda.moveToPosition(info.position);
-        menu.setHeaderTitle(cTienda.getString(1)); // 1 es el nombre
+        menu.setHeaderTitle(cTienda.getString(1)); //1 es el nombre
     }
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         try{
-            if(item.getItemId()== R.id.mnxAgregar){
-                    parametros.putString("accion","nuevo");
-                    abrirActividad(parametros);
-            }
-            if(item.getItemId()==R.id.mnxModificar) {
+            if (item.getItemId()==R.id.mnxAgregar) {
+
+                parametros.putString("accion", "nuevo");
+                abrirActividad(parametros);
+            }else if (item.getItemId()==R.id.mnxModificar) {
                 String[] amigos = {
-                        cTienda.getString(0), //idAmigo
-                        cTienda.getString(1), //nombre
-                        cTienda.getString(2), //direccion
-                        cTienda.getString(3), //tel
-                        cTienda.getString(4), //email
-                        cTienda.getString(5), //dui
-                        cTienda.getString(6), //foto
+                        cTienda.getString(0),
+                        cTienda.getString(1),
+                        cTienda.getString(2),
+                        cTienda.getString(3),
+                        cTienda.getString(4),
+                        cTienda.getString(5),
+                        cTienda.getString(6),
                 };
                 parametros.putString("accion", "modificar");
-                parametros.putStringArray("amigos", amigos);
+                parametros.putStringArray("tienda", amigos);
                 abrirActividad(parametros);
-            } else if (item.getItemId()==R.id.mnxEliminar) {
+            }else if (item.getItemId()==R.id.mnxEliminar){
+
                 eliminarAmigos();
+
             }
             return true;
         }catch (Exception e){
@@ -88,17 +89,16 @@ public class lista_tienda extends AppCompatActivity {
         }
     }
     private void eliminarAmigos(){
-        try {
+        try{
             AlertDialog.Builder confirmar = new AlertDialog.Builder(lista_tienda.this);
-            confirmar.setTitle("Estas segura de eliminar a: ");
-            confirmar.setMessage(cTienda.getString(1)); // 1 es el nombre
-            confirmar.create().show();
+            confirmar.setTitle("Estas seguro de eliminar a: ");
+            confirmar.setMessage(cTienda.getString(1)); //1 es el nombre
             confirmar.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String respuesta = db.administrar_tienda("eliminar", new String[]{cTienda.getString(0)});// 0 es el idAmigo
-                    if (respuesta.equals("ok")){
-                        mostrarMsg("Eliminado con exito");
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    String respuesta = db.administrar_tienda("eliminar", new String[]{cTienda.getString(0)});
+                    if(respuesta.equals("ok")){
+                        mostrarMsg("eliminado con exito");
                         obtenerDatosAmigos();
                     }else{
                         mostrarMsg("Error al eliminar: "+ respuesta);
@@ -107,13 +107,13 @@ public class lista_tienda extends AppCompatActivity {
             });
             confirmar.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
                 }
             });
             confirmar.create().show();
         }catch (Exception e){
-            mostrarMsg("Error al eliminar: "+ e.getMessage());
+            mostrarMsg("Error al eliminar : "+ e.getMessage());
         }
     }
     private void abrirActividad(Bundle parametros){
@@ -123,81 +123,78 @@ public class lista_tienda extends AppCompatActivity {
     }
     private void obtenerDatosAmigos(){
         try {
-            alProducto.clear();
-            alProductoCopy.clear();
+            alproducto.clear();
+            alproductosCopy.clear();
 
             db = new DB(lista_tienda.this, "", null, 1);
             cTienda = db.consultar_tienda();
 
-            if (cTienda.moveToFirst() ){
-                lts = findViewById(R.id.ltsTienda);
-                do {
-                    misProductos = new tienda(
-                            cTienda.getString(0), //idAmigos
-                            cTienda.getString(1), //idNombre
-                            cTienda.getString(2), //idDireccion
-                            cTienda.getString(3), //idTelefono
-                            cTienda.getString(4), //idEmail
-                            cTienda.getString(5),//idDui
-                            cTienda.getString(6)// foto
+            if( cTienda.moveToFirst() ){
+                lts = findViewById(R.id.ltstienda);
+                do{
+                    misproductos = new tienda(
+                            cTienda.getString(0),
+                            cTienda.getString(1),
+                            cTienda.getString(2),
+                            cTienda.getString(3),
+                            cTienda.getString(4),
+                            cTienda.getString(5),
+                            cTienda.getString(6)
                     );
-                    alProducto.add(misProductos);
-                }while (cTienda.moveToNext());
-                alProductoCopy.addAll(alProducto);
+                    alproducto.add(misproductos);
+                }while(cTienda.moveToNext());
+                alproductosCopy.addAll(alproducto);
 
-                adaptadorImagenes adImagenes = new adaptadorImagenes(lista_tienda.this, alProducto);
+                adaptadorImagenes adImagenes = new adaptadorImagenes(lista_tienda.this, alproducto);
                 lts.setAdapter(adImagenes);
 
                 registerForContextMenu(lts);
-            }else {
-                mostrarMsg("NO HAY DATOS DE AMIGOS QUE MOSTRAR.");
+            }else{
+                mostrarMsg("No hay Datos de tienda que mostrar.");
             }
         }catch (Exception e){
-            mostrarMsg("Error al mostrar datos" + e.getMessage());
+            mostrarMsg("Error al mostrar datos: "+ e.getMessage());
         }
     }
-    private void buscarTienda(){
+    private void buscarAmigos(){
         TextView tempVal;
-        tempVal = findViewById(R.id.txtBuscarProductos);
+        tempVal = findViewById(R.id.txtBuscarprod);
         tempVal.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
-                    alProducto.clear();
+                    alproducto.clear();
                     String valor = tempVal.getText().toString().trim().toLowerCase();
-                    if (valor.length()<=0 ){
-                        alProducto.addAll(alProductoCopy);
-                    }else {
-                        for (tienda tienda: alProductoCopy){
+                    if( valor.length()<=0 ){
+                        alproducto.addAll(alproductosCopy);
+                    }else{
+                        for (tienda tienda : alproductosCopy){
                             String codigo = tienda.getCodigo();
                             String descripcion = tienda.getDescripcion();
                             String marca = tienda.getMarca();
                             String presentacion = tienda.getPresentacion();
                             String precio = tienda.getPrecio();
-                            if (codigo.toLowerCase().trim().contains(valor) ||
-                                descripcion.toLowerCase().trim().contains(valor) ||
-                                marca.trim().contains(valor) ||
-                                presentacion.trim().toLowerCase().contains(valor) ||
-                                precio.trim().contains(valor)){
-                                alProducto.add(tienda);
+                            if(codigo.toLowerCase().trim().contains(valor) ||
+                                    descripcion.toLowerCase().trim().contains(valor) ||
+                                    marca.trim().contains(valor) ||
+                                    presentacion.trim().toLowerCase().contains(valor) ||
+                                    precio.trim().contains(valor)){
+                                alproducto.add(tienda);
                             }
                         }
-                        adaptadorImagenes adImagenes = new adaptadorImagenes(getApplicationContext(), alProducto);
+                        adaptadorImagenes adImagenes = new adaptadorImagenes(getApplicationContext(), alproducto);
                         lts.setAdapter(adImagenes);
                     }
                 }catch (Exception e){
-                    mostrarMsg("Error al buscar" + e.getMessage());
+                    mostrarMsg("Error al buscar: "+ e.getMessage());
                 }
-
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable editable) {
 
             }
         });

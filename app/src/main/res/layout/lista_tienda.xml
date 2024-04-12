@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <androidx.cardview.widget.CardView
         android:layout_width="60dp"
         android:layout_margin="10dp"
@@ -15,30 +14,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </androidx.cardview.widget.CardView>
-
     <TextView
         android:id="@+id/lblpresentacion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
         android:layout_marginTop="10dp"
-        android:text="Presentacion: "
-        android:textSize="18dp" />
-
+        android:layout_marginLeft="80dp"
+        android:text="presentacion"
+        android:textSize="18dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/lbldescripcion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
         android:layout_marginTop="30dp"
-        android:text="Descripcion: " />
-
+        android:layout_marginLeft="80dp"
+        android:text="descripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/lblprecio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:layout_marginLeft="80dp"
-        android:layout_marginTop="50dp"
-        android:text="Precio: " />
-
+        android:text="precio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </RelativeLayout>

@@ -1,25 +1,12 @@
 package com.ugb.controlesbasicos;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,26 +30,26 @@ public class MainActivity extends AppCompatActivity {
     Button btn;
     FloatingActionButton btnRegresar;
     String id="", accion="nuevo";
+    ImageView img;
     String urlCompletaFoto;
     Intent tomarFotoIntent;
-    ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnRegresar = findViewById(R.id.fabListaProductos);
+        btnRegresar = findViewById(R.id.fabListaproductos);
         btnRegresar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent regresarLista = new Intent(getApplicationContext(), lista_tienda.class);
                 startActivity(regresarLista);
             }
         });
-        btn = findViewById(R.id.btnGuardarProducto);
+        btn = findViewById(R.id.btnGuardartienda);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 tempVal = findViewById(R.id.txtcodigo);
                 String codigo = tempVal.getText().toString();
 
@@ -79,42 +65,42 @@ public class MainActivity extends AppCompatActivity {
                 tempVal = findViewById(R.id.txtprecio);
                 String precio = tempVal.getText().toString();
 
-                String[] datos = new String[]{id, codigo, descripcion, marca, presentacion, precio, urlCompletaFoto};
+                String[] datos = new String[]{id,codigo,descripcion,marca,presentacion,precio, urlCompletaFoto};
                 DB db = new DB(getApplicationContext(),"", null, 1);
                 String respuesta = db.administrar_tienda(accion, datos);
-                if(respuesta.equals("ok")){
-                    mostrarMsg("Amigo registrado con exito");
-                    listarTienda();
+                if( respuesta.equals("ok") ){
+                    mostrarMsg("Producto registrado con exito.");
+                    listartienda();
                 }else {
-                    mostrarMsg("Error al intentar registrar el amigo: ");
+                    mostrarMsg("Error al intentar registrar el amigo: "+ respuesta);
                 }
             }
         });
-        img = findViewById(R.id.btnImgTienda);
+        img = findViewById(R.id.btnImgtienda);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                tomarFotoTienda();
+            public void onClick(View view) {
+                tomarFototienda();
             }
         });
-        mostrarDatosTienda();
+        mostrarDatostienda();
     }
-    private void tomarFotoTienda(){
+    private void tomarFototienda(){
         tomarFotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        try {
-            File fotoTienda = crearImagenTienda();
-            if (fotoTienda!=null){
+        File fototienda = null;
+        try{
+            fototienda = crearImagentienda();
+            if( fototienda!=null ){
                 Uri urifotoAmigo = FileProvider.getUriForFile(MainActivity.this,
-                        "com.ugb.controlesbasicos.fileprovider", fotoTienda);
+                        "com.ugb.controlesbasicos.fileprovider", fototienda);
                 tomarFotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, urifotoAmigo);
                 startActivityForResult(tomarFotoIntent, 1);
             }else{
                 mostrarMsg("No se pudo tomar la foto");
             }
         }catch (Exception e){
-            mostrarMsg("Error al abrir la camara: " + e.getMessage());
+            mostrarMsg("Error al abrir la camara"+ e.getMessage());
         }
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -130,25 +116,24 @@ public class MainActivity extends AppCompatActivity {
             mostrarMsg("Error al seleccionar la foto"+ e.getMessage());
         }
     }
-    private File crearImagenTienda() throws Exception{
-        String fechaHoraMs= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()),
-                fileName = "imagen_" + fechaHoraMs + "";
+    private File crearImagentienda() throws Exception{
+        String fechaHoraMs = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()),
+                fileName = "imagen_"+fechaHoraMs+"_";
         File dirAlmacenamiento = getExternalFilesDir(Environment.DIRECTORY_DCIM);
-        if(dirAlmacenamiento.exists()==false){
+        if( dirAlmacenamiento.exists()==false ){
             dirAlmacenamiento.mkdirs();
         }
         File image = File.createTempFile(fileName, ".jpg", dirAlmacenamiento);
         urlCompletaFoto = image.getAbsolutePath();
         return image;
     }
-
-    private void mostrarDatosTienda(){
+    private void mostrarDatostienda(){
         try{
             Bundle parametros = getIntent().getExtras();
             accion = parametros.getString("accion");
 
             if(accion.equals("modificar")){
-                String[] tienda = parametros.getStringArray("amigos");
+                String[] tienda = parametros.getStringArray("tienda");
                 id = tienda[0];
 
                 tempVal = findViewById(R.id.txtcodigo);
@@ -165,16 +150,20 @@ public class MainActivity extends AppCompatActivity {
 
                 tempVal = findViewById(R.id.txtprecio);
                 tempVal.setText(tienda[5]);
+
+                urlCompletaFoto = tienda[6];
+                Bitmap imagenBitmap = BitmapFactory.decodeFile(urlCompletaFoto);
+                img.setImageBitmap(imagenBitmap);
             }
         }catch (Exception e){
-            mostrarMsg("Error al mostrar los datos de tienda");
+            mostrarMsg("Error al mostrar los datos");
         }
     }
     private void mostrarMsg(String msg){
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
-    private void listarTienda(){
-        Intent intent= new Intent(getApplicationContext(), lista_tienda.class);
+    private void listartienda(){
+        Intent intent = new Intent(getApplicationContext(), lista_tienda.class);
         startActivity(intent);
     }
 }

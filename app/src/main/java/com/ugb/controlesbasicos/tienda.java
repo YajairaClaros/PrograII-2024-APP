@@ -1,16 +1,21 @@
 package com.ugb.controlesbasicos;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import androidx.annotation.Nullable;
+
 public class tienda {
-    String idProd;
+    String idprod;
     String codigo;
     String descripcion;
     String marca;
     String presentacion;
     String precio;
     String foto;
-
-    public tienda(String idProd, String codigo, String descripcion, String marca, String presentacion, String precio, String foto) {
-        this.idProd = idProd;
+    public tienda(String idprod, String codigo, String descripcion, String marca, String presentacion, String precio, String foto) {
+        this.idprod = idprod;
         this.codigo = codigo;
         this.descripcion = descripcion;
         this.marca = marca;
@@ -22,15 +27,17 @@ public class tienda {
     public String getFoto() {
         return foto;
     }
+
     public void setFoto(String foto) {
         this.foto = foto;
     }
-    public String getIdProd() {
-        return idProd;
+
+    public String getIdprod() {
+        return idprod;
     }
 
-    public void setIdProd(String idProd) {
-        this.idProd = idProd;
+    public void setIdprod(String idprod) {
+        this.idprod = idprod;
     }
 
     public String getCodigo() {
@@ -72,5 +79,4 @@ public class tienda {
     public void setPrecio(String precio) {
         this.precio = precio;
     }
-
 }
