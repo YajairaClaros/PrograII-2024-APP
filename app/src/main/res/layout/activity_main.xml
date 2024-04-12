@@ -21,7 +21,6 @@
         android:id="@+id/txtcodigo"
         android:hint="Codigo"
         android:layout_below="@id/btnImgTienda"
-        android:inputType="textPersonName"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
@@ -36,7 +35,6 @@
     <EditText
         android:id="@+id/txtmarca"
         android:hint="Marca"
-        android:inputType="phone"
         android:layout_below="@id/txtdescripcion"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
@@ -44,7 +42,6 @@
     <EditText
         android:id="@+id/txtpresentacion"
         android:hint="Presentacion"
-        android:inputType="textEmailAddress"
         android:layout_below="@id/txtmarca"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
@@ -53,7 +50,7 @@
         android:id="@+id/txtprecio"
         android:hint="Precio"
         android:inputType="number"
-        android:layout_below="@id/txtmarca"
+        android:layout_below="@id/txtpresentacion"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
