@@ -101,8 +101,9 @@ public class MainActivity extends AppCompatActivity {
     }
     private void tomarFotoAmigo(){
         tomarFotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File fotoAmigo = null;
         try {
-            File fotoAmigo = crearImagenAmigo();
+            fotoAmigo = crearImagenAmigo();
             if (fotoAmigo!=null){
                 Uri urifotoAmigo = FileProvider.getUriForFile(MainActivity.this,
                         "com.ugb.controlesbasicos.fileprovider", fotoAmigo);
@@ -165,6 +166,10 @@ public class MainActivity extends AppCompatActivity {
 
                 tempVal = findViewById(R.id.txtDui);
                 tempVal.setText(amigos[5]);
+
+                urlCompletaFoto = amigos[6];
+                Bitmap imagenBitmap = BitmapFactory.decodeFile(urlCompletaFoto);
+                img.setImageBitmap(imagenBitmap);
             }
         }catch (Exception e){
             mostrarMsg("Error al mostrar los datos amigos");
