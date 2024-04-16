@@ -7,19 +7,19 @@
     tools:context=".lista_amigos">
 
     <EditText
-        android:id="@+id/txtBuscarAmigos"
-        android:hint="Buscar Amigos"
+        android:id="@+id/txtBuscarproducto"
+        android:hint="Buscar producto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <ListView
-        android:id="@+id/ltsAmigos"
+        android:id="@+id/ltsproductos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="40dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAgregarAmigos"
+        android:id="@+id/fabAgregarproductos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

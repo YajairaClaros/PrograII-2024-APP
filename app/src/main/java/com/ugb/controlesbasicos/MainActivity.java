@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tempVal;
     Button btn;
     FloatingActionButton btnRegresar;
-    String id="", rev="", idAmigo="",accion="nuevo";
+    String id="", rev="", idprod="",accion="nuevo";
     String urlCompletaFoto;
     Intent tomarFotoIntent;
     ImageView img;
@@ -60,55 +60,55 @@ public class MainActivity extends AppCompatActivity {
         utls = new utilidades();
         db = new DB(getApplicationContext(), "", null, 1);
         di = new detectarInternet(getApplicationContext());
-        btnRegresar = findViewById(R.id.fabListaAmigos);
+        btnRegresar = findViewById(R.id.fabListaproducto);
 
         btnRegresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent regresarLista = new Intent(getApplicationContext(), lista_amigos.class);
+                Intent regresarLista = new Intent(getApplicationContext(), lista_tienda.class);
                 startActivity(regresarLista);
             }
         });
-        btn = findViewById(R.id.btnGuardarAmigo);
+        btn = findViewById(R.id.btnGuardarproducto);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    tempVal = findViewById(R.id.txtnombre);
-                    String nombre = tempVal.getText().toString();
+                    tempVal = findViewById(R.id.txtcodigo);
+                    String codigo = tempVal.getText().toString();
 
-                    tempVal = findViewById(R.id.txtdireccion);
-                    String direccion = tempVal.getText().toString();
+                    tempVal = findViewById(R.id.txtdescripcion);
+                    String descripcion = tempVal.getText().toString();
 
-                    tempVal = findViewById(R.id.txtTelefono);
-                    String tel = tempVal.getText().toString();
+                    tempVal = findViewById(R.id.txtmarca);
+                    String marca = tempVal.getText().toString();
 
-                    tempVal = findViewById(R.id.txtEmail);
-                    String email = tempVal.getText().toString();
+                    tempVal = findViewById(R.id.txtpresentacion);
+                    String presentacion = tempVal.getText().toString();
 
-                    tempVal = findViewById(R.id.txtDui);
-                    String dui = tempVal.getText().toString();
+                    tempVal = findViewById(R.id.txtprecio);
+                    String precio = tempVal.getText().toString();
 
 
                     String respuesta;
                     if (di.hayConexionInternet()) {
                         //obtener datos a enviar al servidor
-                        JSONObject datosAmigos = new JSONObject();
+                        JSONObject datostienda = new JSONObject();
                         if (accion.equals("modificar")) {
-                            datosAmigos.put("_id", id);
-                            datosAmigos.put("_rev", rev);
+                            datostienda.put("_id", id);
+                            datostienda.put("_rev", rev);
                         }
-                        datosAmigos.put("idAmigo", idAmigo);
-                        datosAmigos.put("nombre", nombre);
-                        datosAmigos.put("direccion", direccion);
-                        datosAmigos.put("telefono", tel);
-                        datosAmigos.put("email", email);
-                        datosAmigos.put("dui", dui);
-                        datosAmigos.put("urlCompletaFoto", urlCompletaFoto);
+                        datostienda.put("idprod", idprod);
+                        datostienda.put("codigo", codigo);
+                        datostienda.put("descripcion", descripcion);
+                        datostienda.put("marca", marca);
+                        datostienda.put("presentacion", presentacion);
+                        datostienda.put("precio", precio);
+                        datostienda.put("urlCompletaFoto", urlCompletaFoto);
                         //enviamos los datos
                         respuesta = "";
                         enviarDatosServidor objGuardarDatosServidor = new enviarDatosServidor(getApplicationContext());
-                        respuesta = objGuardarDatosServidor.execute(datosAmigos.toString()).get();
+                        respuesta = objGuardarDatosServidor.execute(datostienda.toString()).get();
 mostrarMsg(respuesta);
                         //comprobacion de la respuesta
                         JSONObject respuestaJSONObject = new JSONObject(respuesta);
@@ -119,36 +119,39 @@ mostrarMsg(respuesta);
                             respuesta = "Error al guardar en servidor: " + respuesta;
                         }
                     }
-                    String[] datos = new String[]{id, rev, idAmigo, nombre, direccion, tel, email, dui, urlCompletaFoto};
-                    respuesta = db.administrar_amigos(accion, datos);
+                    String[] datos = new String[]{id, rev, idprod, codigo, descripcion, marca, presentacion, precio, urlCompletaFoto};
+                    respuesta = db.administrar_tienda(accion, datos);
                     if (respuesta.equals("ok")) {
-                        mostrarMsg("Amigos registrado con exito.");
-                        listarAmigos();
+                        mostrarMsg("Producto registrado con exito.");
+                        listarProductos();
                     } else {
-                        mostrarMsg("Error al intentar registrar el amigo: " + respuesta);
+                        mostrarMsg("Error al intentar registrar el producto: " + respuesta);
                     }
                 }catch (Exception e){
                     mostrarMsg("Error al guadar datos en el servidor o en SQLite: "+ e.getMessage());
                 }
             }
         });
-        img = findViewById(R.id.btnImgAmigo);
+        img = findViewById(R.id.btnImg);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tomarFotoAmigo();
+                tomarFotoproducto();
             }
         });
-        mostrarDatosAmigos();
+        mostrarDatosproductos();
     }
-    private void tomarFotoAmigo(){
+    private void sincronizar (){
+
+    }
+    private void tomarFotoproducto(){
         tomarFotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         try {
-            File fotoAmigo = crearImagenAmigo();
-            if (fotoAmigo!=null){
-                Uri urifotoAmigo = FileProvider.getUriForFile(MainActivity.this,
-                        "com.ugb.controlesbasicos.fileprovider", fotoAmigo);
-                tomarFotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, urifotoAmigo);
+            File fotoproducto = crearImagenProducto();
+            if (fotoproducto!=null){
+                Uri urifotoproducto = FileProvider.getUriForFile(MainActivity.this,
+                        "com.ugb.controlesbasicos.fileprovider", fotoproducto);
+                tomarFotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, urifotoproducto);
                 startActivityForResult(tomarFotoIntent, 1);
             }else{
                 mostrarMsg("Error al crear la imagen");
@@ -172,7 +175,7 @@ mostrarMsg(respuesta);
             mostrarMsg("Error al seleccionar la foto"+ e.getMessage());
         }
     }
-    private File crearImagenAmigo() throws Exception{
+    private File crearImagenProducto() throws Exception{
         String fechaHoraMs= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()),
                 fileName = "imagen_" + fechaHoraMs + "";
         File dirAlmacenamiento = getExternalFilesDir(Environment.DIRECTORY_DCIM);
@@ -184,37 +187,37 @@ mostrarMsg(respuesta);
         return image;
     }
 
-    private void mostrarDatosAmigos(){
+    private void mostrarDatosproductos(){
         try{
             Bundle parametros = getIntent().getExtras();
             accion = parametros.getString("accion");
 
             if(accion.equals("modificar")){
-                JSONObject jsonObject = new JSONObject(parametros.getString("amigos")).getJSONObject("value");
+                JSONObject jsonObject = new JSONObject(parametros.getString("productos")).getJSONObject("value");
                 id = jsonObject.getString("_id");
                 rev = jsonObject.getString("_rev");
-                idAmigo = jsonObject.getString("idAmigo");
+                idprod = jsonObject.getString("idprod");
 
-                tempVal = findViewById(R.id.txtnombre);
-                tempVal.setText(jsonObject.getString("nombre"));
+                tempVal = findViewById(R.id.txtcodigo);
+                tempVal.setText(jsonObject.getString("codigo"));
 
-                tempVal = findViewById(R.id.txtdireccion);
-                tempVal.setText(jsonObject.getString("direccion"));
+                tempVal = findViewById(R.id.txtdescripcion);
+                tempVal.setText(jsonObject.getString("descripcion"));
 
-                tempVal = findViewById(R.id.txtTelefono);
-                tempVal.setText(jsonObject.getString("telefono"));
+                tempVal = findViewById(R.id.txtmarca);
+                tempVal.setText(jsonObject.getString("marca"));
 
-                tempVal = findViewById(R.id.txtEmail);
-                tempVal.setText(jsonObject.getString("email"));
+                tempVal = findViewById(R.id.txtpresentacion);
+                tempVal.setText(jsonObject.getString("presentacion"));
 
-                tempVal = findViewById(R.id.txtDui);
-                tempVal.setText(jsonObject.getString("dui"));
+                tempVal = findViewById(R.id.txtprecio);
+                tempVal.setText(jsonObject.getString("precio"));
 
                 urlCompletaFoto = jsonObject.getString("urlCompletaFoto");
                 Bitmap imagenBitmap = BitmapFactory.decodeFile(urlCompletaFoto);
                 img.setImageBitmap(imagenBitmap);
             }else{//nuevos registros
-                idAmigo = utls.generarIdUnico();
+                idprod = utls.generarIdUnico();
             }
         }catch (Exception e){
             mostrarMsg("Error al mostrar los datos amigos");
@@ -223,8 +226,8 @@ mostrarMsg(respuesta);
     private void mostrarMsg(String msg){
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
-    private void listarAmigos(){
-        Intent intent= new Intent(getApplicationContext(), lista_amigos.class);
+    private void listarProductos(){
+        Intent intent= new Intent(getApplicationContext(), lista_tienda.class);
         startActivity(intent);
     }
 }
