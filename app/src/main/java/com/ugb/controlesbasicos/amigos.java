@@ -10,7 +10,6 @@ public class amigos {
     String email;
     String dui;
     String foto;
-
     public amigos(String _id, String _rev, String idAmigo, String nombre, String direccion, String telefono, String email, String dui, String foto) {
         this._id = _id;
         this._rev = _rev;
@@ -34,13 +33,14 @@ public class amigos {
     public void set_rev(String _rev) {
         this._rev = _rev;
     }
-
     public String getFoto() {
         return foto;
     }
+
     public void setFoto(String foto) {
         this.foto = foto;
     }
+
     public String getIdAmigo() {
         return idAmigo;
     }
@@ -88,5 +88,4 @@ public class amigos {
     public void setDui(String dui) {
         this.dui = dui;
     }
-
 }

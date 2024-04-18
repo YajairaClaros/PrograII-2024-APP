@@ -3,6 +3,7 @@ package com.ugb.controlesbasicos;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStream;
@@ -12,13 +13,13 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class enviarDatosServidor extends AsyncTask<String, String , String> {
+public class enviarDatosServidor extends AsyncTask<String, String, String> {
     Context _context;
     String respuesta;
     HttpURLConnection httpURLConnection;
     public enviarDatosServidor(Context _context) {
         this._context = _context;
-}
+    }
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
@@ -28,7 +29,7 @@ public class enviarDatosServidor extends AsyncTask<String, String , String> {
         String jsonResponse = null;
         String jsonDatos = parametros[0];
         BufferedReader bufferedReader;
-        try {
+        try{
             URL url = new URL(utilidades.url_mto);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setDoInput(true);

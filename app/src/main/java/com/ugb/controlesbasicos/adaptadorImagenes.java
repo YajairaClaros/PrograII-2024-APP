@@ -3,7 +3,6 @@ package com.ugb.controlesbasicos;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,36 +27,35 @@ public class adaptadorImagenes extends BaseAdapter {
         return datosAmigosArrayList.size();
     }
     @Override
-    public Object getItem(int position) {
-        return datosAmigosArrayList.get(position);
+    public Object getItem(int i) {
+        return datosAmigosArrayList.get(i);
     }
     @Override
-    public long getItemId(int position) {
-        return position; //Long.parseLong(datosAmigosArrayList.get(position).getIdAmigo());
+    public long getItemId(int i) {
+        return i; //Long.parseLong(datosAmigosArrayList.get(i).getIdAmigo());
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-      layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      View itemView = layoutInflater.inflate(R.layout.listview_imagenes, parent, false);
-      try {
-          misAmigos = datosAmigosArrayList.get(position);
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View itemView = layoutInflater.inflate(R.layout.listview_imagenes, viewGroup, false);
+        try{
+            misAmigos = datosAmigosArrayList.get(i);
 
-          TextView tempVal = itemView.findViewById(R.id.lblNombre);
-          tempVal.setText(misAmigos.getNombre());
+            TextView tempVal = itemView.findViewById(R.id.lblNombre);
+            tempVal.setText(misAmigos.getNombre());
 
-          tempVal = itemView.findViewById(R.id.lblTelefono);
-          tempVal.setText(misAmigos.getTelefono());
+            tempVal = itemView.findViewById(R.id.lblTelefono);
+            tempVal.setText(misAmigos.getTelefono());
 
-          tempVal = itemView.findViewById(R.id.lblEmail);
-          tempVal.setText(misAmigos.getEmail());
+            tempVal = itemView.findViewById(R.id.lblEmail);
+            tempVal.setText(misAmigos.getEmail());
 
-          ImageView imgView = itemView.findViewById(R.id.imgFoto);
-          Bitmap imagenBitmap = BitmapFactory.decodeFile(misAmigos.getFoto());
-          imgView.setImageBitmap(imagenBitmap);
-
-      }catch (Exception e){
-          Toast.makeText(context, "Error en Adaptador Imagen: " + e.getMessage(), Toast.LENGTH_LONG).show();
-      }
-      return itemView;
+            ImageView imgView = itemView.findViewById(R.id.imgFoto);
+            Bitmap imagenBitmap = BitmapFactory.decodeFile(misAmigos.getFoto());
+            imgView.setImageBitmap(imagenBitmap);
+        }catch (Exception e){
+            Toast.makeText(context, "Error en Adaptador Imagenes: "+ e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return itemView;
     }
 }
