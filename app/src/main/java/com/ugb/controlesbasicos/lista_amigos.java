@@ -28,10 +28,10 @@ public class lista_amigos extends AppCompatActivity {
     FloatingActionButton btnAgregarAmigos;
     ListView lts;
     Cursor cAmigos;
-    amigos misAmigos;
+    amigos misAamigos;
     DB db;
-    final ArrayList<amigos> alAmigos = new ArrayList<amigos>();
-    final ArrayList<amigos> alAmigosCopy = new ArrayList<amigos>();
+    final ArrayList<amigos> alAmigos=new ArrayList<amigos>();
+    final ArrayList<amigos> alAmigosCopy=new ArrayList<amigos>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,8 +40,8 @@ public class lista_amigos extends AppCompatActivity {
         btnAgregarAmigos = findViewById(R.id.fabAgregarAmigos);
         btnAgregarAmigos.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                parametros.putString("accion", "nuevo");
+            public void onClick(View view) {
+                parametros.putString("accion","nuevo");
                 abrirActividad(parametros);
             }
         });
@@ -56,14 +56,14 @@ public class lista_amigos extends AppCompatActivity {
 
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         cAmigos.moveToPosition(info.position);
-        menu.setHeaderTitle(cAmigos.getString(1)); // 1 es el nombre
+        menu.setHeaderTitle(cAmigos.getString(1)); //1 es el nombre
     }
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         try{
             if(item.getItemId()== R.id.mnxAgregar){
-                    parametros.putString("accion","nuevo");
-                    abrirActividad(parametros);
+                parametros.putString("accion","nuevo");
+                abrirActividad(parametros);
             }
             if(item.getItemId()==R.id.mnxModificar) {
                 String[] amigos = {
@@ -88,15 +88,15 @@ public class lista_amigos extends AppCompatActivity {
         }
     }
     private void eliminarAmigos(){
-        try {
+        try{
             AlertDialog.Builder confirmar = new AlertDialog.Builder(lista_amigos.this);
-            confirmar.setTitle("Estas segura de eliminar a: ");
-            confirmar.setMessage(cAmigos.getString(1)); // 1 es el nombre
+            confirmar.setTitle("Estas seguro de eliminar a: ");
+            confirmar.setMessage(cAmigos.getString(1)); //1 es el nombre
             confirmar.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    String respuesta = db.administrar_amigos("eliminar", new String[]{cAmigos.getString(0)});// 0 es el idAmigo
-                    if (respuesta.equals("ok")){
+                    String respuesta = db.administrar_amigos("eliminar", new String[]{cAmigos.getString(0)});//0 es el idAmigo
+                    if(respuesta.equals("ok")){
                         mostrarMsg("Amigo eliminado con exito");
                         obtenerDatosAmigos();
                     }else{
@@ -128,31 +128,31 @@ public class lista_amigos extends AppCompatActivity {
             db = new DB(lista_amigos.this, "", null, 1);
             cAmigos = db.consultar_amigos();
 
-            if (cAmigos.moveToFirst() ){
+            if( cAmigos.moveToFirst() ){
                 lts = findViewById(R.id.ltsAmigos);
-                do {
-                    misAmigos = new amigos(
-                            cAmigos.getString(0), //idAmigos
-                            cAmigos.getString(1), //idNombre
-                            cAmigos.getString(2), //idDireccion
-                            cAmigos.getString(3), //idTelefono
-                            cAmigos.getString(4), //idEmail
-                            cAmigos.getString(5),//idDui
-                            cAmigos.getString(6) // foto
+                do{
+                    misAamigos = new amigos(
+                            cAmigos.getString(0),//idAmigo
+                            cAmigos.getString(1),//nombre
+                            cAmigos.getString(2),//direccion
+                            cAmigos.getString(3),//telefono
+                            cAmigos.getString(4),//email
+                            cAmigos.getString(5),//dui
+                            cAmigos.getString(6) //foto
                     );
-                    alAmigos.add(misAmigos);
-                }while (cAmigos.moveToFirst());
+                    alAmigos.add(misAamigos);
+                }while(cAmigos.moveToNext());
                 alAmigosCopy.addAll(alAmigos);
 
                 adaptadorImagenes adImagenes = new adaptadorImagenes(lista_amigos.this, alAmigos);
                 lts.setAdapter(adImagenes);
 
                 registerForContextMenu(lts);
-            }else {
-                mostrarMsg("NO HAY DATOS DE AMIGOS QUE MOSTRAR.");
+            }else{
+                mostrarMsg("No hay Datos de amigos que mostrar.");
             }
         }catch (Exception e){
-            mostrarMsg("Error al mostrar datos" + e.getMessage());
+            mostrarMsg("Error al mostrar datos: "+ e.getMessage());
         }
     }
     private void buscarAmigos(){
@@ -163,26 +163,25 @@ public class lista_amigos extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
                     alAmigos.clear();
                     String valor = tempVal.getText().toString().trim().toLowerCase();
-                    if (valor.length()<=0 ){
+                    if( valor.length()<=0 ){
                         alAmigos.addAll(alAmigosCopy);
-                    }else {
-                        for (amigos amigo: alAmigosCopy){
+                    }else{
+                        for (amigos amigo : alAmigosCopy){
                             String nombre = amigo.getNombre();
                             String direccion = amigo.getDireccion();
                             String tel = amigo.getTelefono();
                             String email = amigo.getEmail();
                             String dui = amigo.getDui();
-                            if (nombre.toLowerCase().trim().contains(valor) ||
-                                direccion.toLowerCase().trim().contains(valor) ||
-                                tel.trim().contains(valor) ||
-                                email.trim().toLowerCase().contains(valor) ||
-                                dui.trim().contains(valor)){
+                            if(nombre.toLowerCase().trim().contains(valor) ||
+                                    direccion.toLowerCase().trim().contains(valor) ||
+                                    tel.trim().contains(valor) ||
+                                    email.trim().toLowerCase().contains(valor) ||
+                                    dui.trim().contains(valor)){
                                 alAmigos.add(amigo);
                             }
                         }
@@ -190,13 +189,11 @@ public class lista_amigos extends AppCompatActivity {
                         lts.setAdapter(adImagenes);
                     }
                 }catch (Exception e){
-                    mostrarMsg("Error al buscar" + e.getMessage());
+                    mostrarMsg("Error al buscar: "+ e.getMessage());
                 }
-
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(Editable editable) {
 
             }
         });
