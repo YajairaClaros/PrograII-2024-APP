@@ -56,7 +56,7 @@ public class lista_tienda extends AppCompatActivity {
         });
         try {
             di = new detectarInternet(getApplicationContext());
-            if (di.hayConexionInternet() ){ sincronizar();
+            if (di.hayConexionInternet() ){
                 obtenerDatosServidor();
             }else{//offline
                 obtenerDatosProductos();
@@ -77,11 +77,6 @@ public class lista_tienda extends AppCompatActivity {
             mostrarDatosProductos();
         }catch (Exception e){
             mostrarMsg("Error al obtener datos del no jodas: "+e.getMessage());
-        }
-    }
-    private void sincronizar() {
-        if (di.hayConexionInternet() == true);{
-            mostrarDatosProductos();
         }
     }
 
