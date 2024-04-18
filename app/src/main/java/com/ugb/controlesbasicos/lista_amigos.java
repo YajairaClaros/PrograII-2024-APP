@@ -166,7 +166,7 @@ public class lista_amigos extends AppCompatActivity {
                             mostrarMsg("Error al eliminar el amigo: " + respuesta);
                         }
                     }catch (Exception e){
-                        mostrarMsg("Error al intentar elimianr: "+ e.getMessage());
+                        mostrarMsg("Error al intentar eliminar: "+ e.getMessage());
                     }
                 }
             });
