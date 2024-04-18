@@ -92,10 +92,9 @@ public class lista_amigos extends AppCompatActivity {
             AlertDialog.Builder confirmar = new AlertDialog.Builder(lista_amigos.this);
             confirmar.setTitle("Estas segura de eliminar a: ");
             confirmar.setMessage(cAmigos.getString(1)); // 1 es el nombre
-            confirmar.create().show();
             confirmar.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(DialogInterface dialogInterface, int i) {
                     String respuesta = db.administrar_amigos("eliminar", new String[]{cAmigos.getString(0)});// 0 es el idAmigo
                     if (respuesta.equals("ok")){
                         mostrarMsg("Amigo eliminado con exito");
@@ -107,8 +106,8 @@ public class lista_amigos extends AppCompatActivity {
             });
             confirmar.setNegativeButton("NO", new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
                 }
             });
             confirmar.create().show();
@@ -161,12 +160,12 @@ public class lista_amigos extends AppCompatActivity {
         tempVal = findViewById(R.id.txtBuscarAmigos);
         tempVal.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
                     alAmigos.clear();
                     String valor = tempVal.getText().toString().trim().toLowerCase();

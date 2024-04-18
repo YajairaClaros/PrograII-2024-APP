@@ -44,9 +44,10 @@ public class MainActivity extends AppCompatActivity {
     Button btn;
     FloatingActionButton btnRegresar;
     String id="", accion="nuevo";
+    ImageView img;
     String urlCompletaFoto;
     Intent tomarFotoIntent;
-    ImageView img;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                     mostrarMsg("Amigo registrado con exito");
                     listarAmigos();
                 }else {
-                    mostrarMsg("Error al intentar registrar el amigo: ");
+                    mostrarMsg("Error al intentar registrar el amigo: " + respuesta);
                 }
             }
         });
@@ -110,12 +111,11 @@ public class MainActivity extends AppCompatActivity {
                 tomarFotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, urifotoAmigo);
                 startActivityForResult(tomarFotoIntent, 1);
             }else{
-                mostrarMsg("Error al crear la imagen");
+                mostrarMsg("No se pudo tomar la foto");
             }
         }catch (Exception e){
-            mostrarMsg("Error al crear la foto: " + e.getMessage());
+            mostrarMsg("Error al abrir la camara: " + e.getMessage());
         }
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private File crearImagenAmigo() throws Exception{
         String fechaHoraMs= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()),
-                fileName = "imagen_" + fechaHoraMs + "";
+                fileName = "imagen_" + fechaHoraMs + "_";
         File dirAlmacenamiento = getExternalFilesDir(Environment.DIRECTORY_DCIM);
         if(dirAlmacenamiento.exists()==false){
             dirAlmacenamiento.mkdirs();
@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity {
         urlCompletaFoto = image.getAbsolutePath();
         return image;
     }
-
     private void mostrarDatosAmigos(){
         try{
             Bundle parametros = getIntent().getExtras();

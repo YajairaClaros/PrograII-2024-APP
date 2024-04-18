@@ -16,15 +16,14 @@ public class DB extends SQLiteOpenHelper {
     public DB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, dbname, factory, version);
     }
-
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQLdb);
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(SQLdb);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        //actualizar la estrucutra de la BD.
     }
     public String administrar_amigos(String accion, String[] datos){
         try {

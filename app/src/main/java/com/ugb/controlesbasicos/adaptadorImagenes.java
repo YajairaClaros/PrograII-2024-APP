@@ -28,19 +28,19 @@ public class adaptadorImagenes extends BaseAdapter {
         return datosAmigosArrayList.size();
     }
     @Override
-    public Object getItem(int position) {
-        return datosAmigosArrayList.get(position);
+    public Object getItem(int i) {
+        return datosAmigosArrayList.get(i);
     }
     @Override
-    public long getItemId(int position) {
-        return Long.parseLong(datosAmigosArrayList.get(position).getIdAmigo());
+    public long getItemId(int i) {
+        return Long.parseLong(datosAmigosArrayList.get(i).getIdAmigo());
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int i, View view, ViewGroup viewGroup) {
       layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      View itemView = layoutInflater.inflate(R.layout.listview_imagenes, parent, false);
+      View itemView = layoutInflater.inflate(R.layout.listview_imagenes, viewGroup, false);
       try {
-          misAmigos = datosAmigosArrayList.get(position);
+          misAmigos = datosAmigosArrayList.get(i);
 
           TextView tempVal = itemView.findViewById(R.id.lblNombre);
           tempVal.setText(misAmigos.getNombre());
@@ -54,7 +54,6 @@ public class adaptadorImagenes extends BaseAdapter {
           ImageView imgView = itemView.findViewById(R.id.imgFoto);
           Bitmap imagenBitmap = BitmapFactory.decodeFile(misAmigos.getFoto());
           imgView.setImageBitmap(imagenBitmap);
-
       }catch (Exception e){
           Toast.makeText(context, "Error en Adaptador Imagen: " + e.getMessage(), Toast.LENGTH_LONG).show();
       }
