@@ -13,11 +13,6 @@ import java.net.URL;
 public class obtenerDatosServidor extends AsyncTask <String, String, String> {
     HttpURLConnection httpURLConnection;
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
-    }
-
-    @Override
     protected String doInBackground(String... strings) {
         StringBuilder respuesta = new StringBuilder();
         try {
@@ -39,5 +34,9 @@ public class obtenerDatosServidor extends AsyncTask <String, String, String> {
             httpURLConnection.disconnect();
         }
         return respuesta.toString();
+    }
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
     }
 }

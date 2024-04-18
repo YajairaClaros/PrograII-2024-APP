@@ -1,25 +1,12 @@
 package com.ugb.controlesbasicos;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
     TextView tempVal;
     Button btn;
     FloatingActionButton btnRegresar;
-    String id="", rev="", idAmigo="",accion="nuevo";
+    String id="", rev="", idAmigo="", accion="nuevo";
+    ImageView img;
     String urlCompletaFoto;
     Intent tomarFotoIntent;
-    ImageView img;
     utilidades utls;
     DB db;
     detectarInternet di;
@@ -60,11 +46,11 @@ public class MainActivity extends AppCompatActivity {
         utls = new utilidades();
         db = new DB(getApplicationContext(), "", null, 1);
         di = new detectarInternet(getApplicationContext());
-        btnRegresar = findViewById(R.id.fabListaAmigos);
 
+        btnRegresar = findViewById(R.id.fabListaAmigos);
         btnRegresar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent regresarLista = new Intent(getApplicationContext(), lista_amigos.class);
                 startActivity(regresarLista);
             }
@@ -72,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         btn = findViewById(R.id.btnGuardarAmigo);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 try {
                     tempVal = findViewById(R.id.txtnombre);
                     String nombre = tempVal.getText().toString();
@@ -132,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         img = findViewById(R.id.btnImgAmigo);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 tomarFotoAmigo();
             }
         });
@@ -140,20 +126,20 @@ public class MainActivity extends AppCompatActivity {
     }
     private void tomarFotoAmigo(){
         tomarFotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        try {
-            File fotoAmigo = crearImagenAmigo();
-            if (fotoAmigo!=null){
+        File fotoAmigo = null;
+        try{
+            fotoAmigo = crearImagenamigo();
+            if( fotoAmigo!=null ){
                 Uri urifotoAmigo = FileProvider.getUriForFile(MainActivity.this,
                         "com.ugb.controlesbasicos.fileprovider", fotoAmigo);
                 tomarFotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, urifotoAmigo);
                 startActivityForResult(tomarFotoIntent, 1);
             }else{
-                mostrarMsg("Error al crear la imagen");
+                mostrarMsg("No se pudo tomar la foto");
             }
         }catch (Exception e){
-            mostrarMsg("Error al crear la foto: " + e.getMessage());
+            mostrarMsg("Error al abrir la camara"+ e.getMessage());
         }
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -169,18 +155,17 @@ public class MainActivity extends AppCompatActivity {
             mostrarMsg("Error al seleccionar la foto"+ e.getMessage());
         }
     }
-    private File crearImagenAmigo() throws Exception{
-        String fechaHoraMs= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()),
-                fileName = "imagen_" + fechaHoraMs + "";
+    private File crearImagenamigo() throws Exception{
+        String fechaHoraMs = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()),
+                fileName = "imagen_"+fechaHoraMs+"_";
         File dirAlmacenamiento = getExternalFilesDir(Environment.DIRECTORY_DCIM);
-        if(dirAlmacenamiento.exists()==false){
+        if( dirAlmacenamiento.exists()==false ){
             dirAlmacenamiento.mkdirs();
         }
         File image = File.createTempFile(fileName, ".jpg", dirAlmacenamiento);
         urlCompletaFoto = image.getAbsolutePath();
         return image;
     }
-
     private void mostrarDatosAmigos(){
         try{
             Bundle parametros = getIntent().getExtras();
@@ -221,16 +206,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
     private void listarAmigos(){
-        Intent intent= new Intent(getApplicationContext(), lista_amigos.class);
+        Intent intent = new Intent(getApplicationContext(), lista_amigos.class);
         startActivity(intent);
     }
 }
-
-
-
-
-
-
-
-
-
