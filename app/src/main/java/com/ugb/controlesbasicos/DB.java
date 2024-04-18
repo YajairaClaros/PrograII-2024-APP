@@ -23,8 +23,8 @@ public class DB extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+        // actualizar la estructura de la BD
     }
     public String administrar_amigos(String accion, String[] datos){
         try {
