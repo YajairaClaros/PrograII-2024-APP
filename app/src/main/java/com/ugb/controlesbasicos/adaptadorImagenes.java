@@ -15,43 +15,43 @@ import java.util.ArrayList;
 
 public class adaptadorImagenes extends BaseAdapter {
     Context context;
-    ArrayList<amigos> datosAmigosArrayList;
-    amigos misAmigos;
+    ArrayList<peliculas> datosPeliculasArrayList;
+    peliculas misPeliculas;
     LayoutInflater layoutInflater;
-    public adaptadorImagenes(Context context, ArrayList<amigos> datosAmigosArrayList) {
+    public adaptadorImagenes(Context context, ArrayList<peliculas> datosPeliculasArrayList) {
         this.context = context;
-        this.datosAmigosArrayList = datosAmigosArrayList;
+        this.datosPeliculasArrayList = datosPeliculasArrayList;
     }
     @Override
     public int getCount() {
-        return datosAmigosArrayList.size();
+        return datosPeliculasArrayList.size();
     }
     @Override
     public Object getItem(int i) {
-        return datosAmigosArrayList.get(i);
+        return datosPeliculasArrayList.get(i);
     }
     @Override
     public long getItemId(int i) {
-        return i; //Long.parseLong(datosAmigosArrayList.get(i).getIdAmigo());
+        return i;//Long.parseLong(datosPeliculasArrayList.get(i).getIdPeli());
     }
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = layoutInflater.inflate(R.layout.listview_imagenes, viewGroup, false);
         try{
-            misAmigos = datosAmigosArrayList.get(i);
+                misPeliculas = datosPeliculasArrayList.get(i);
 
-            TextView tempVal = itemView.findViewById(R.id.lblNombre);
-            tempVal.setText(misAmigos.getNombre());
+            TextView tempVal = itemView.findViewById(R.id.lblTitulo);
+            tempVal.setText(misPeliculas.getTitulo());
 
-            tempVal = itemView.findViewById(R.id.lblTelefono);
-            tempVal.setText(misAmigos.getTelefono());
+            tempVal = itemView.findViewById(R.id.lblSinopsis);
+            tempVal.setText(misPeliculas.getSinopsis());
 
-            tempVal = itemView.findViewById(R.id.lblEmail);
-            tempVal.setText(misAmigos.getEmail());
+            tempVal = itemView.findViewById(R.id.lblDuracion);
+            tempVal.setText(misPeliculas.getDuracion());
 
             ImageView imgView = itemView.findViewById(R.id.imgFoto);
-            Bitmap imagenBitmap = BitmapFactory.decodeFile(misAmigos.getFoto());
+            Bitmap imagenBitmap = BitmapFactory.decodeFile(misPeliculas.getFoto());
             imgView.setImageBitmap(imagenBitmap);
         }catch (Exception e){
             Toast.makeText(context, "Error en Adaptador Imagenes: "+ e.getMessage(), Toast.LENGTH_LONG).show();

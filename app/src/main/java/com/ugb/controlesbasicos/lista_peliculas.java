@@ -26,15 +26,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class lista_amigos extends AppCompatActivity {
+public class lista_peliculas extends AppCompatActivity {
     Bundle parametros = new Bundle();
     FloatingActionButton btnAgregarAmigos;
     ListView lts;
     Cursor cAmigos;
-    amigos misAamigos;
+    peliculas misPeliculas;
     DB db;
-    final ArrayList<amigos> alAmigos=new ArrayList<amigos>();
-    final ArrayList<amigos> alAmigosCopy=new ArrayList<amigos>();
+    final ArrayList<peliculas> alPeliculas=new ArrayList<peliculas>();
+    final ArrayList<peliculas> alPeliculasCopy=new ArrayList<peliculas>();
     JSONArray datosJSON; //para los datos que vienen del servidor
     JSONObject jsonObject;
     obtenerDatosServidor datosServidor;
@@ -43,10 +43,10 @@ public class lista_amigos extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lista_amigos);
+        setContentView(R.layout.lista_peliculas);
 
         db = new DB(getApplicationContext(),"", null, 1);
-        btnAgregarAmigos = findViewById(R.id.fabAgregarAmigos);
+        btnAgregarAmigos = findViewById(R.id.fabAgregarPeliculas);
         btnAgregarAmigos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,51 +57,50 @@ public class lista_amigos extends AppCompatActivity {
         try{
             di = new detectarInternet(getApplicationContext());
             if( di.hayConexionInternet() ){
-                obtenerDatosAmigosServidor();
+                obtenerDatosPeliculasServidor();
             }else{//offline
-                obtenerDatosAmigos();
+                obtenerDatosPeliculas();
             }
         }catch (Exception e){
-            mostrarMsg("Error al cargar lista amigo: "+ e.getMessage());
+            mostrarMsg("Error al cargar lista peliculas: "+ e.getMessage());
         }
-        buscarAmigos();
+        buscarPeliculas();
     }
-    private void obtenerDatosAmigosServidor(){
+    private void obtenerDatosPeliculasServidor(){
         try {
             datosServidor = new obtenerDatosServidor();
             String data = datosServidor.execute().get();
             jsonObject = new JSONObject(data);
             datosJSON = jsonObject.getJSONArray("rows");
-            mostrarDatosAmigos();
+            mostrarDatosPeliculas();
         }catch (Exception e){
             mostrarMsg("Error al obtener datos del server: "+e.getMessage());
         }
     }
-    private void mostrarDatosAmigos(){
+    private void mostrarDatosPeliculas(){
         try{
             if( datosJSON.length()>0 ){
-                lts = findViewById(R.id.ltsAmigos);
-                alAmigos.clear();
-                alAmigosCopy.clear();
+                lts = findViewById(R.id.ltsPeliculas);
+                alPeliculas.clear();
+                alPeliculasCopy.clear();
 
                 JSONObject misDatosJSONObject;
                 for (int i=0; i<datosJSON.length();i++){
                     misDatosJSONObject = datosJSON.getJSONObject(i).getJSONObject("value");
-                    misAamigos = new amigos(
+                    misPeliculas = new peliculas(
                             misDatosJSONObject.getString("_id"),
                             misDatosJSONObject.getString("_rev"),
-                            misDatosJSONObject.getString("idAmigo"),
-                            misDatosJSONObject.getString("nombre"),
-                            misDatosJSONObject.getString("direccion"),
-                            misDatosJSONObject.getString("telefono"),
-                            misDatosJSONObject.getString("email"),
-                            misDatosJSONObject.getString("dui"),
+                            misDatosJSONObject.getString("idPeli"),
+                            misDatosJSONObject.getString("titulo"),
+                            misDatosJSONObject.getString("sinopsis"),
+                            misDatosJSONObject.getString("duracion"),
+                            misDatosJSONObject.getString("actor"),
                             misDatosJSONObject.getString("urlCompletaFoto")
                     );
-                    alAmigos.add(misAamigos);
+                    alPeliculas.add(misPeliculas);
                 }
-                alAmigosCopy.addAll(alAmigos);
-                adaptadorImagenes adImagenes = new adaptadorImagenes(lista_amigos.this, alAmigos);
+                alPeliculasCopy.addAll(alPeliculas);
+                adaptadorImagenes adImagenes = new adaptadorImagenes(lista_peliculas.this, alPeliculas);
                 lts.setAdapter(adImagenes);
                 registerForContextMenu(lts);
             }else{
@@ -134,10 +133,10 @@ public class lista_amigos extends AppCompatActivity {
             }
             if(item.getItemId()==R.id.mnxModificar) {
                 parametros.putString("accion", "modificar");
-                parametros.putString("amigos",datosJSON.getJSONObject(posicion).toString());
+                parametros.putString("peliculas",datosJSON.getJSONObject(posicion).toString());
                 abrirActividad(parametros);
             } else if (item.getItemId()==R.id.mnxEliminar) {
-                eliminarAmigos();
+                eliminarPeliculas();
             }
             return true;
         }catch (Exception e){
@@ -145,22 +144,22 @@ public class lista_amigos extends AppCompatActivity {
             return super.onContextItemSelected(item);
         }
     }
-    private void eliminarAmigos(){
+    private void eliminarPeliculas(){
         try{
-            AlertDialog.Builder confirmar = new AlertDialog.Builder(lista_amigos.this);
+            AlertDialog.Builder confirmar = new AlertDialog.Builder(lista_peliculas.this);
             confirmar.setTitle("Estas seguro de eliminar a: ");
-            confirmar.setMessage(datosJSON.getJSONObject(posicion).getJSONObject("value").getString("nombre")); //1 es el nombre
+            confirmar.setMessage(datosJSON.getJSONObject(posicion).getJSONObject("value").getString("titulo")); //1 es el nombre
             confirmar.setPositiveButton("SI", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     try {
-                        String respuesta = db.administrar_amigos("eliminar",
-                                new String[]{"", "", datosJSON.getJSONObject(posicion).getJSONObject("value").getString("idAmigo")});
+                        String respuesta = db.administrar_peliculas("eliminar",
+                                new String[]{"", "", datosJSON.getJSONObject(posicion).getJSONObject("value").getString("idPeli")});
                         if (respuesta.equals("ok")) {
-                            mostrarMsg("Amigo eliminado con exito");
-                            obtenerDatosAmigos();
+                            mostrarMsg("Pelicula eliminado con exito");
+                            obtenerDatosPeliculas();
                         } else {
-                            mostrarMsg("Error al eliminar el amigo: " + respuesta);
+                            mostrarMsg("Error al eliminar la pelicula: " + respuesta);
                         }
                     }catch (Exception e){
                         mostrarMsg("Error al intentar eliminar: "+ e.getMessage());
@@ -175,7 +174,7 @@ public class lista_amigos extends AppCompatActivity {
             });
             confirmar.create().show();
         }catch (Exception e){
-            mostrarMsg("Error al eliminar amigo: "+ e.getMessage());
+            mostrarMsg("Error al eliminar pelicula: "+ e.getMessage());
         }
     }
     private void abrirActividad(Bundle parametros){
@@ -183,9 +182,9 @@ public class lista_amigos extends AppCompatActivity {
         abrirActividad.putExtras(parametros);
         startActivity(abrirActividad);
     }
-    private void obtenerDatosAmigos(){//offline
+    private void obtenerDatosPeliculas(){//offline
         try {
-            cAmigos = db.consultar_amigos();
+            cAmigos = db.consultar_peliculas();
 
             if( cAmigos.moveToFirst() ){
                 datosJSON = new JSONArray();
@@ -204,7 +203,7 @@ public class lista_amigos extends AppCompatActivity {
                     jsonObjectValue.put("value", jsonObject);
                     datosJSON.put(jsonObjectValue);
                 }while(cAmigos.moveToNext());
-                mostrarDatosAmigos();
+                mostrarDatosPeliculas();
             }else{
                 mostrarMsg("No hay Datos de amigos que mostrar.");
             }
@@ -212,9 +211,9 @@ public class lista_amigos extends AppCompatActivity {
             mostrarMsg("Error al mostrar datos: "+ e.getMessage());
         }
     }
-    private void buscarAmigos(){
+    private void buscarPeliculas(){
         TextView tempVal;
-        tempVal = findViewById(R.id.txtBuscarAmigos);
+        tempVal = findViewById(R.id.txtBuscarPeliculas);
         tempVal.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -223,26 +222,24 @@ public class lista_amigos extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
-                    alAmigos.clear();
+                    alPeliculas.clear();
                     String valor = tempVal.getText().toString().trim().toLowerCase();
                     if( valor.length()<=0 ){
-                        alAmigos.addAll(alAmigosCopy);
+                        alPeliculas.addAll(alPeliculasCopy);
                     }else{
-                        for (amigos amigo : alAmigosCopy){
-                            String nombre = amigo.getNombre();
-                            String direccion = amigo.getDireccion();
-                            String tel = amigo.getTelefono();
-                            String email = amigo.getEmail();
-                            String dui = amigo.getDui();
-                            if(nombre.toLowerCase().trim().contains(valor) ||
-                                    direccion.toLowerCase().trim().contains(valor) ||
-                                    tel.trim().contains(valor) ||
-                                    email.trim().toLowerCase().contains(valor) ||
-                                    dui.trim().contains(valor)){
-                                alAmigos.add(amigo);
+                        for (peliculas pelicula : alPeliculasCopy){
+                            String titulo = pelicula.getTitulo();
+                            String sinopsis = pelicula.getSinopsis();
+                            String dur = pelicula.getDuracion();
+                            String actor = pelicula.getActor();
+                            if(titulo.toLowerCase().trim().contains(valor) ||
+                                    sinopsis.toLowerCase().trim().contains(valor) ||
+                                    dur.trim().contains(valor) ||
+                                    actor.trim().toLowerCase().contains(valor)){
+                                alPeliculas.add(pelicula);
                             }
                         }
-                        adaptadorImagenes adImagenes = new adaptadorImagenes(getApplicationContext(), alAmigos);
+                        adaptadorImagenes adImagenes = new adaptadorImagenes(getApplicationContext(), alPeliculas);
                         lts.setAdapter(adImagenes);
                     }
                 }catch (Exception e){

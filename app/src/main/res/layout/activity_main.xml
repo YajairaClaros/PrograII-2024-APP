@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <ImageButton
-        android:id="@+id/btnImgAmigo"
+        android:id="@+id/btnImgPelicula"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_alignParentStart="true"
@@ -18,55 +18,47 @@
         android:src="@android:drawable/ic_menu_camera" />
 
     <EditText
-        android:id="@+id/txtnombre"
-        android:hint="Nombre"
-        android:layout_below="@id/btnImgAmigo"
+        android:id="@+id/txttitulo"
+        android:hint="Titulo"
+        android:layout_below="@id/btnImgPelicula"
         android:inputType="textPersonName"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
-        android:id="@+id/txtdireccion"
-        android:hint="Direccion"
+        android:id="@+id/txtsinopsis"
+        android:hint="Sinopsis"
         android:inputType="textMultiLine"
-        android:layout_below="@id/txtnombre"
+        android:layout_below="@id/txttitulo"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
-        android:id="@+id/txtTelefono"
-        android:hint="Telefono"
-        android:inputType="phone"
-        android:layout_below="@id/txtdireccion"
-        android:layout_marginTop="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/txtEmail"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:layout_below="@id/txtTelefono"
-        android:layout_marginTop="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/txtDui"
-        android:hint="DUI"
+        android:id="@+id/txtDuracion"
+        android:hint="Duracion"
         android:inputType="number"
-        android:layout_below="@id/txtEmail"
+        android:layout_below="@id/txtsinopsis"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/txtActor"
+        android:hint="Actor"
+        android:inputType="textPersonName"
+        android:layout_below="@id/txtDuracion"
         android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btnGuardarAmigo"
-        android:text="GUARDAR AMIGO"
+        android:id="@+id/btnGuardarPelicula"
+        android:text="GUARDAR PELICULA"
         android:layout_width="match_parent"
-        android:layout_below="@id/txtDui"
+        android:layout_below="@id/txtActor"
         android:layout_marginTop="40dp"
         android:layout_height="wrap_content"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabListaAmigos"
+        android:id="@+id/fabListaPeliculas"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="20dp"

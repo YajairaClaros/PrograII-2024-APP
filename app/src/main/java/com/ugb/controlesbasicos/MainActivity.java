@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tempVal;
     Button btn;
     FloatingActionButton btnRegresar;
-    String id="", rev="", idAmigo="", accion="nuevo";
+    String id="", rev="", idPeli="", accion="nuevo";
     ImageView img;
     String urlCompletaFoto;
     Intent tomarFotoIntent;
@@ -47,33 +47,30 @@ public class MainActivity extends AppCompatActivity {
         db = new DB(getApplicationContext(), "", null, 1);
         di = new detectarInternet(getApplicationContext());
 
-        btnRegresar = findViewById(R.id.fabListaAmigos);
+        btnRegresar = findViewById(R.id.fabListaPeliculas);
         btnRegresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent regresarLista = new Intent(getApplicationContext(), lista_amigos.class);
+                Intent regresarLista = new Intent(getApplicationContext(), lista_peliculas.class);
                 startActivity(regresarLista);
             }
         });
-        btn = findViewById(R.id.btnGuardarAmigo);
+        btn = findViewById(R.id.btnGuardarPelicula);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    tempVal = findViewById(R.id.txtnombre);
-                    String nombre = tempVal.getText().toString();
+                    tempVal = findViewById(R.id.txttitulo);
+                    String titulo = tempVal.getText().toString();
 
-                    tempVal = findViewById(R.id.txtdireccion);
-                    String direccion = tempVal.getText().toString();
+                    tempVal = findViewById(R.id.txtsinopsis);
+                    String sinopsis = tempVal.getText().toString();
 
-                    tempVal = findViewById(R.id.txtTelefono);
-                    String tel = tempVal.getText().toString();
+                    tempVal = findViewById(R.id.txtDuracion);
+                    String dur = tempVal.getText().toString();
 
-                    tempVal = findViewById(R.id.txtEmail);
-                    String email = tempVal.getText().toString();
-
-                    tempVal = findViewById(R.id.txtDui);
-                    String dui = tempVal.getText().toString();
+                    tempVal = findViewById(R.id.txtActor);
+                    String actor = tempVal.getText().toString();
 
                     String respuesta = "";
                     if( di.hayConexionInternet() ) {
@@ -83,12 +80,11 @@ public class MainActivity extends AppCompatActivity {
                             datosAmigos.put("_id", id);
                             datosAmigos.put("_rev", rev);
                         }
-                        datosAmigos.put("idAmigo", idAmigo);
-                        datosAmigos.put("nombre", nombre);
-                        datosAmigos.put("direccion", direccion);
-                        datosAmigos.put("telefono", tel);
-                        datosAmigos.put("email", email);
-                        datosAmigos.put("dui", dui);
+                        datosAmigos.put("idPeli", idPeli);
+                        datosAmigos.put("titulo", titulo);
+                        datosAmigos.put("sinopsis", sinopsis);
+                        datosAmigos.put("duracion", dur);
+                        datosAmigos.put("actor", actor);
                         datosAmigos.put("urlCompletaFoto", urlCompletaFoto);
                         //enviamos los datos
                         enviarDatosServidor objGuardarDatosServidor = new enviarDatosServidor(getApplicationContext());
@@ -102,20 +98,20 @@ public class MainActivity extends AppCompatActivity {
                             respuesta = "Error al guardar en servidor: " + respuesta;
                         }
                     }
-                    String[] datos = new String[]{id, rev, idAmigo, nombre, direccion, tel, email, dui, urlCompletaFoto};
-                    respuesta = db.administrar_amigos(accion, datos);
+                    String[] datos = new String[]{id, rev, idPeli, titulo, sinopsis, dur, actor, urlCompletaFoto};
+                    respuesta = db.administrar_peliculas(accion, datos);
                     if (respuesta.equals("ok")) {
-                        mostrarMsg("Amigos registrado con exito.");
+                        mostrarMsg("Pelicula registrada con exito.");
                         listarAmigos();
                     } else {
-                        mostrarMsg("Error al intentar registrar el amigo: " + respuesta);
+                        mostrarMsg("Error al intentar registrar la pelicula: " + respuesta);
                     }
                 }catch (Exception e){
                     mostrarMsg("Error al guadar datos en el servidor o en SQLite: "+ e.getMessage());
                 }
             }
         });
-        img = findViewById(R.id.btnImgAmigo);
+        img = findViewById(R.id.btnImgPelicula);
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,38 +171,35 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(parametros.getString("amigos")).getJSONObject("value");
                 id = jsonObject.getString("_id");
                 rev = jsonObject.getString("_rev");
-                idAmigo = jsonObject.getString("idAmigo");
+                idPeli = jsonObject.getString("idPeli");
 
-                tempVal = findViewById(R.id.txtnombre);
-                tempVal.setText(jsonObject.getString("nombre"));
+                tempVal = findViewById(R.id.txttitulo);
+                tempVal.setText(jsonObject.getString("titulo"));
 
-                tempVal = findViewById(R.id.txtdireccion);
-                tempVal.setText(jsonObject.getString("direccion"));
+                tempVal = findViewById(R.id.txtsinopsis);
+                tempVal.setText(jsonObject.getString("sinopsis"));
 
-                tempVal = findViewById(R.id.txtTelefono);
-                tempVal.setText(jsonObject.getString("telefono"));
+                tempVal = findViewById(R.id.txtDuracion);
+                tempVal.setText(jsonObject.getString("duracion"));
 
-                tempVal = findViewById(R.id.txtEmail);
-                tempVal.setText(jsonObject.getString("email"));
-
-                tempVal = findViewById(R.id.txtDui);
-                tempVal.setText(jsonObject.getString("dui"));
+                tempVal = findViewById(R.id.txtActor);
+                tempVal.setText(jsonObject.getString("actor"));
 
                 urlCompletaFoto = jsonObject.getString("urlCompletaFoto");
                 Bitmap imagenBitmap = BitmapFactory.decodeFile(urlCompletaFoto);
                 img.setImageBitmap(imagenBitmap);
             }else{//nuevos registros
-                idAmigo = utls.generarIdUnico();
+                idPeli = utls.generarIdUnico();
             }
         }catch (Exception e){
-            mostrarMsg("Error al mostrar los datos amigos");
+            mostrarMsg("Error al mostrar los datos peliculas");
         }
     }
     private void mostrarMsg(String msg){
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
     private void listarAmigos(){
-        Intent intent = new Intent(getApplicationContext(), lista_amigos.class);
+        Intent intent = new Intent(getApplicationContext(), lista_peliculas.class);
         startActivity(intent);
     }
 }
