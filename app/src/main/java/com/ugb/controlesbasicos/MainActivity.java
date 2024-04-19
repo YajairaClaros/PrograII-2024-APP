@@ -75,20 +75,20 @@ public class MainActivity extends AppCompatActivity {
                     String respuesta = "";
                     if( di.hayConexionInternet() ) {
                         //obtener datos a enviar al servidor
-                        JSONObject datosAmigos = new JSONObject();
+                        JSONObject datosPeliculas = new JSONObject();
                         if (accion.equals("modificar")) {
-                            datosAmigos.put("_id", id);
-                            datosAmigos.put("_rev", rev);
+                            datosPeliculas.put("_id", id);
+                            datosPeliculas.put("_rev", rev);
                         }
-                        datosAmigos.put("idPeli", idPeli);
-                        datosAmigos.put("titulo", titulo);
-                        datosAmigos.put("sinopsis", sinopsis);
-                        datosAmigos.put("duracion", dur);
-                        datosAmigos.put("actor", actor);
-                        datosAmigos.put("urlCompletaFoto", urlCompletaFoto);
+                        datosPeliculas.put("idPeli", idPeli);
+                        datosPeliculas.put("titulo", titulo);
+                        datosPeliculas.put("sinopsis", sinopsis);
+                        datosPeliculas.put("duracion", dur);
+                        datosPeliculas.put("actor", actor);
+                        datosPeliculas.put("urlCompletaFoto", urlCompletaFoto);
                         //enviamos los datos
                         enviarDatosServidor objGuardarDatosServidor = new enviarDatosServidor(getApplicationContext());
-                        respuesta = objGuardarDatosServidor.execute(datosAmigos.toString()).get();
+                        respuesta = objGuardarDatosServidor.execute(datosPeliculas.toString()).get();
                         //comprobacion de la respuesta
                         JSONObject respuestaJSONObject = new JSONObject(respuesta);
                         if (respuestaJSONObject.getBoolean("ok")) {
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     respuesta = db.administrar_peliculas(accion, datos);
                     if (respuesta.equals("ok")) {
                         mostrarMsg("Pelicula registrada con exito.");
-                        listarAmigos();
+                        listarPeliculas();
                     } else {
                         mostrarMsg("Error al intentar registrar la pelicula: " + respuesta);
                     }
@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 tomarFotoAmigo();
             }
         });
-        mostrarDatosAmigos();
+        mostrarDatosPeliculas();
     }
     private void tomarFotoAmigo(){
         tomarFotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -162,13 +162,13 @@ public class MainActivity extends AppCompatActivity {
         urlCompletaFoto = image.getAbsolutePath();
         return image;
     }
-    private void mostrarDatosAmigos(){
+    private void mostrarDatosPeliculas(){
         try{
             Bundle parametros = getIntent().getExtras();
             accion = parametros.getString("accion");
 
             if(accion.equals("modificar")){
-                JSONObject jsonObject = new JSONObject(parametros.getString("amigos")).getJSONObject("value");
+                JSONObject jsonObject = new JSONObject(parametros.getString("peliculas")).getJSONObject("value");
                 id = jsonObject.getString("_id");
                 rev = jsonObject.getString("_rev");
                 idPeli = jsonObject.getString("idPeli");
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
     private void mostrarMsg(String msg){
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
-    private void listarAmigos(){
+    private void listarPeliculas(){
         Intent intent = new Intent(getApplicationContext(), lista_peliculas.class);
         startActivity(intent);
     }
