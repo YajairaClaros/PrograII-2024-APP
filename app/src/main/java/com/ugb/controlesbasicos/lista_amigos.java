@@ -35,7 +35,7 @@ public class lista_amigos extends AppCompatActivity {
     DB db;
     final ArrayList<amigos> alAmigos=new ArrayList<amigos>();
     final ArrayList<amigos> alAmigosCopy=new ArrayList<amigos>();
-    JSONArray datosJSON;
+    JSONArray datosJSON; //para los datos que vienen del servidor
     JSONObject jsonObject;
     obtenerDatosServidor datosServidor;
     detectarInternet di;
@@ -45,7 +45,6 @@ public class lista_amigos extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lista_amigos);
 
-        db = new DB(lista_amigos.this, "", null, 1);
         btnAgregarAmigos = findViewById(R.id.fabAgregarAmigos);
         btnAgregarAmigos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,6 +184,7 @@ public class lista_amigos extends AppCompatActivity {
     }
     private void obtenerDatosAmigos(){//offline
         try {
+            db = new DB(getApplicationContext(),"", null, 1);
             cAmigos = db.consultar_amigos();
 
             if( cAmigos.moveToFirst() ){
@@ -193,14 +193,14 @@ public class lista_amigos extends AppCompatActivity {
                     jsonObject =new JSONObject();
                     JSONObject jsonObjectValue = new JSONObject();
                     jsonObject.put("_id", cAmigos.getString(0));
-                    jsonObject.put("_rev", cAmigos.getString(1));
-                    jsonObject.put("idAmigo", cAmigos.getString(2));
-                    jsonObject.put("nombre", cAmigos.getString(3));
-                    jsonObject.put("direccion", cAmigos.getString(4));
-                    jsonObject.put("telefono", cAmigos.getString(5));
-                    jsonObject.put("email", cAmigos.getString(6));
-                    jsonObject.put("dui", cAmigos.getString(7));
-                    jsonObject.put("urlCompletaFoto", cAmigos.getString(8));
+                    jsonObject.put("_rev", cAmigos.getString(0));
+                    jsonObject.put("idAmigo", cAmigos.getString(1));
+                    jsonObject.put("nombre", cAmigos.getString(2));
+                    jsonObject.put("direccion", cAmigos.getString(3));
+                    jsonObject.put("telefono", cAmigos.getString(4));
+                    jsonObject.put("email", cAmigos.getString(5));
+                    jsonObject.put("dui", cAmigos.getString(6));
+                    jsonObject.put("urlCompletaFoto", cAmigos.getString(7));
 
                     jsonObjectValue.put("value", jsonObject);
                     datosJSON.put(jsonObjectValue);
