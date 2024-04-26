@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         utls = new utilidades();
-        db = new DB(getApplicationContext(), "", null, 1);
         di = new detectarInternet(getApplicationContext());
 
         btnRegresar = findViewById(R.id.fabListaAmigos);
@@ -75,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
                     tempVal = findViewById(R.id.txtDui);
                     String dui = tempVal.getText().toString();
 
-                    String respuesta = "";
+                    String respuesta = "", actualizado = "no";
                     if( di.hayConexionInternet() ) {
-                        //obtener datos a enviar al servidor
+                        //guardar datos en el servidor
                         JSONObject datosAmigos = new JSONObject();
                         if (accion.equals("modificar")) {
                             datosAmigos.put("_id", id);
@@ -90,19 +89,21 @@ public class MainActivity extends AppCompatActivity {
                         datosAmigos.put("email", email);
                         datosAmigos.put("dui", dui);
                         datosAmigos.put("urlCompletaFoto", urlCompletaFoto);
-                        //enviamos los datos
+
                         enviarDatosServidor objGuardarDatosServidor = new enviarDatosServidor(getApplicationContext());
                         respuesta = objGuardarDatosServidor.execute(datosAmigos.toString()).get();
-                        //comprobacion de la respuesta
+
                         JSONObject respuestaJSONObject = new JSONObject(respuesta);
                         if (respuestaJSONObject.getBoolean("ok")) {
                             id = respuestaJSONObject.getString("id");
                             rev = respuestaJSONObject.getString("rev");
+                            actualizado="si";
                         } else {
-                            respuesta = "Error al guardar en servidor: " + respuesta;
+                            mostrarMsg("Error al guardar datos en el servidor");
                         }
                     }
-                    String[] datos = new String[]{id, rev, idAmigo, nombre, direccion, tel, email, dui, urlCompletaFoto};
+                    db = new DB(getApplicationContext(), "", null, 1);
+                    String[] datos = new String[]{id, rev, idAmigo, nombre, direccion, tel, email, dui, urlCompletaFoto, actualizado};
                     respuesta = db.administrar_amigos(accion, datos);
                     if (respuesta.equals("ok")) {
                         mostrarMsg("Amigos registrado con exito.");
