@@ -17,28 +17,37 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/lblNombre"
+        android:id="@+id/lblCodigo"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="80dp"
-        android:text="Nombre: "
+        android:text="Codigo: "
         android:textSize="18dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/lblTelefono"
-        android:layout_marginTop="40dp"
+        android:id="@+id/lblDescripcion"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="80dp"
-        android:text="Teléfono: "
+        android:text="Descripcion: "
+        android:textSize="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/lblMarca"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="80dp"
+        android:text="Marca: "
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/lblEmail"
-        android:layout_marginTop="30dp"
+        android:id="@+id/lblPrecio"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="200dp"
-        android:text="Email: "
+        android:text="Precio: "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
