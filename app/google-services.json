@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "76925494399",
+    "firebase_url": "https://practicaugbsm2-default-rtdb.firebaseio.com",
+    "project_id": "practicaugbsm2",
+    "storage_bucket": "practicaugbsm2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76925494399:android:0ff7113c01d5de957d4b4a",
+        "android_client_info": {
+          "package_name": "com.ugb.controlesbasicos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUvsxolEuAfMRcacMc3x7FNnj5-LocLpo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
