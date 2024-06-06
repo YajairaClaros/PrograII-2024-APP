@@ -66,6 +66,7 @@ public class lista_amigos extends AppCompatActivity {
         }catch (Exception e){
             mostrarMsg("Error al cargar lista amigo: "+ e.getMessage());
         }
+
         buscarAmigos();
     }
     private void sincronizar(){
