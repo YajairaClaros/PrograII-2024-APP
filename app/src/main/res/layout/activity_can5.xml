@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp"
+    android:padding="16dp">
+
+    <!-- Layout horizontal para las imágenes -->
+    <LinearLayout
+        android:id="@+id/layoutImagenes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <!-- Imagen de Bukele -->
+        <ImageView
+            android:id="@+id/imgBukele"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/fs"
+            android:scaleType="centerCrop" />
+
+        <!-- Espacio entre las imágenes -->
+        <View
+            android:layout_width="16dp"
+            android:layout_height="match_parent" />
+
+        <!-- Logo del partido -->
+        <ImageView
+            android:id="@+id/imgLogoPartido"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/fzlogo"
+            android:scaleType="centerCrop"
+            />
+    </LinearLayout>
+
+    <!-- Nombre del candidato -->
+    <TextView
+        android:id="@+id/txtNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutImagenes"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:text="Jose Renderos"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Descripción del candidato -->
+    <TextView
+        android:id="@+id/txtDescripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtNombre"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:text="Trabajar en la creación de un plan integral de salud, Garantizar el suministro de agua, viendo la escases, Un plan para la adquisición y abastecimiento de medicamentos de calidad en la red de salud, Dignificar al gremio médico"
+        android:textSize="16sp" />
+
+    <!-- Nombre del partido -->
+    <TextView
+        android:id="@+id/txtPartido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtDescripcion"
+        android:layout_marginTop="8dp"
+        android:layout_centerHorizontal="true"
+        android:text="Partido: Fuerza solidaria"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/btcand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPartido"
+        android:layout_marginTop="270dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/b"
+        android:backgroundTintMode="src_over"
+        android:text="Volver"
+        android:textSize="18dp" />
+
+</RelativeLayout>
