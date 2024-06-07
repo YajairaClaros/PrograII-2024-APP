@@ -15,16 +15,13 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_logo"
+        android:icon="@mipmap/ic_logo_launcher"
         android:label="BoxChoice"
-        android:roundIcon="@mipmap/ic_logo_round"
+        android:roundIcon="@mipmap/ic_logo_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ControlesBasicos"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <activity
-            android:name=".ingresarchat"
-            android:exported="false" />
         <activity
             android:name=".chatsoporte"
             android:exported="false" />
@@ -51,9 +48,6 @@
             android:exported="false" />
         <activity
             android:name=".candidatos"
-            android:exported="false" />
-        <activity
-            android:name=".HomeActivity"
             android:exported="false" />
         <activity
             android:name=".AuthActivity"

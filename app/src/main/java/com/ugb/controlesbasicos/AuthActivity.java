@@ -90,8 +90,17 @@ public class AuthActivity extends AppCompatActivity {
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addPredeterminedResponses();
                 Intent intent = new Intent(getApplicationContext(), chatsoporte.class);
                 startActivity(intent);
+            }
+
+            private void addPredeterminedResponses() {
+                DatabaseReference responsesRef = databaseReference.child("predeterminedResponses");
+
+                responsesRef.child("step1").setValue("Coméntanos cuál es tu problema.");
+                responsesRef.child("step2").setValue("Agrega un número de teléfono o correo para contactarnos con usted.");
+                responsesRef.child("step3").setValue("Nuestro equipo se pondrá en contacto con usted lo más pronto posible.");
             }
         });
 
